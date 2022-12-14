@@ -1,0 +1,218 @@
+================課堂解說================
+&nbsp;  不換行空格
+<!-- HML 的註解-->
+/* CSS 的註解 */
+pdf 密碼 kuomulin
+上課檔案 https://drive.google.com/drive/folders/1SCkGHkDNYEVYwhd1GCJ_-66JBaq62IBR
+
+
+================套用css================
+1. class="css的樣式名稱"
+        樣式名稱的前置就是.
+2. id="css的樣式名稱"
+        樣式名稱的前置就是#
+3. 直接使用css的屬性值
+        style="屬性: 值ㄤ ; 屬性2: 值"
+
+
+================HTML標籤分類================
+************參閱HTML-CSS.pdf 第二類************
+1. <hn></hn> : n=1~6, 標題樣式
+2. <hr> : 水平線
+3. <br> : 網頁資料的換列
+    This<br>
+    is<br>
+    book<br>
+
+4. <p></p> :
+網頁資料的分段, 在外觀上<p>的列距大於<br>
+
+5. <div></div> :
+是延伸的分段tag, 用途是配合css成為網頁元件的容器, 類似word的文字方塊
+
+6. <pre></pre> :
+用原來的樣式呈現在網頁上, 不隨瀏覽器視窗改變對齊與排列
+
+
+************參閱HTML-CSS.pdf 第三類************
+1. <b></b> : 設定粗體字
+2. <strong></strong> : 同上
+3. <i></i> : 設定斜體字
+4. <em></em> : 同上
+5. <font></font> : 設定文字格式, 主要的屬性有
+        face  指定字體
+        size  指定字體大小, 1-7表示, 由小而大
+              大小可以採用相對大小 +1~+6 -1~-6, 
+              以size="3"做相對大小
+              再加減運算中, 小於時1等於為, 大於7時等於7
+        color 設定文字的顏色
+        上述的tag是以字元為單位
+6. <center></center> : 將網頁內容置中顯示
+
+
+************參閱HTML-CSS.pdf 第四類 超連結************
+<a></a> : 建立文件或圖片式的超連結, 主要的屬性有
+
+1. href 指定目的網址或網頁
+2. target 
+    指定目的網址的首頁或網頁顯示在瀏覽器的位置, 避免連接到人家的網站讓人感覺是子網頁, 避免侵權, 早期在IE是點進去會新開一個瀏覽器, 目前是透過在新分頁開啟網頁的方式(較省記憶體)
+
+    target 的指定方式:
+        _self : 未指定時的預設
+        _parent : 目前頁面的前一張分頁
+        _top : 第一張分頁(最前面)
+        _blank : 
+            第一張新分頁
+            在新的分頁打開網站
+            目前網站-A網站-B網站
+        new : 
+            在新的分頁打開網站, 只維持一張新分頁(下一張分頁)
+            目前網站-A網站
+            目前網站-B網站
+3. title : 設定提示文字
+4. name : 插入錨點(書籤)
+    一般來說用於長網頁長文件
+    top / mid 可以設超連結, 點按則將網頁拉到指定的錨點
+    #錨點名稱 
+    <a name="top"></a>      
+    <a href="#top">回頁首</a>
+
+
+************參閱HTML-CSS.pdf 第五類************
+<ul></ul> : 項目清單
+    <ul type="square/disc/circle"
+
+<ol></ol> : 編號清單
+    <ol type="A/a/I/i"
+
+<li></li> : 清單項目, 指定項目的文字內容
+
+延伸tag : css語法應用
+<dir></dir>
+<menu></menu>
+    讓更多不同組的項目能夠呈現, 四種不同設計ul or dir menu
+
+<style type="text/css">
+    menu {
+        list-style:url(dot/dot1.gif);
+        margin: 10px; /*與圖片的間距*/
+    }
+</style>
+
+
+************參閱HTML-CSS.pdf 第六類************
+<img> : 顯示圖片, 主要的屬性有
+    src 指定圖片的路徑, 網頁只支援jpg, png, gif
+    width 設定圖片顯示區的寬度
+    height 設定圖片顯示區的高度
+    alt 替代文字或圖片, 圖片尚未讀取完全或無法讀取時, 顯示
+
+    配合a可做圖片式的超連結
+
+
+************參閱HTML-CSS.pdf 第七類 表格標籤************
+<table></table> : 定義表格, 主要的屬性有
+    width        設定表格的總寬度（必須設定
+    border       設定表格框線的寬度/粗細
+    bgcolor      設定表格的背景顏色
+    background   設定表格的背景圖片
+    bordercolor  設定框線的顏色
+
+<tr></tr> : 設定表格列, 主要的屬性有
+    align 設定水平對齊方式(left, right, center)
+    bgcolor 指定列的背景色
+    height 指定列高
+    rowspan 合併列 擴大列
+
+<td></td> : 設定表格欄
+    align 設定水平對齊方式(left, right, center)
+    bgcolor 指定欄的背景色
+    height 指定欄高
+    width 指定欄高(當欄的寬度超出總寬度時, 會依欄的比例值配置欄寬)
+    Colspan 合併欄 擴大欄
+
+<th></th> : 設定欄標題
+    使用方式同<td></td> 但資料置中粗體
+
+    <tr>
+        <td rowspan=2>第2列第1欄</td> 
+        <td>第2列第2欄</td> 
+        <td>第2列第3欄</td> 
+    </tr>
+
+<tbody></tbody> : 設定區塊(以若干列為單位)
+
+可放在表格的任何位置, 都會有作用
+<thead></thead> : 設定欄標題(以tr,td所組成)
+<tfoot></tfoot> : 設定表格的註記(最末列)以tr,td組成
+<caption></caption> : 設定表格的標題(主要有align)
+
+
+************參閱HTML-CSS.pdf 第八類************
+<form></form> : 定義表單, 主要的屬性有
+    name 設定表單的名稱
+    method 設定表單的傳遞方式
+        get    預設的方式, 在網址列上用參數, 速度快, 可傳的資料有限
+        pose   在封包裡面傳, 安全性高
+        action 指定表單的後端處理程式
+
+<label></label> : 延伸tag <label style=""></label>
+
+<input> : 建立表單元件
+    type 指定元件的類型
+        text 文字方塊, 輸入地址姓名等
+        password 輸入密碼的文字方塊(看不到輸入的內容)
+        checkbox 核取方塊(複選)
+        radio 選項鈕(單選)
+        submit 傳送鈕
+        reset 重填鈕
+        button 空按鈕(以JavaScript撰寫按鈕功能)
+    name 設定元件的名稱
+    value 指定回傳到網站端的內如或是, submet, reset,button
+    size 指定欄寬
+    checked 設定為被選取狀態(做為預設選擇)
+
+<textarea></textarea> : 建立文字區塊(多列式)
+    rows 指定列數, 若超過列數會顯示垂直捲軸
+    cols 指定欄數, 若超過欄寬, 自動換行
+    name 設定元件的欄名
+    readonly 設為唯讀
+
+<select></select> 建立清單方塊或是組合方塊
+    combobox : 右邊有箭頭可顯示更多資訊
+        name 設定元件的名稱
+        size 設定元件顯示的列數 size="1" 是 combobox
+        multiple 設定複選
+
+    <option></option> : 指定選項內容
+        value 有放要回傳給伺服器端的內容
+        selected 被選取狀態
+
+<fieldset></fieldset> : 設定區域範圍
+    沒有設定寬度的話, 會延伸到視窗盡頭
+    <legend></legend> : 設定標題
+
+
+================Part9================
+JavaScript 要寫在哪裡?
+between head or body?
+要馬上使用的話 body
+被叫用才使用的話 head
+
+現在大部分的表單的傳送按鈕通常都是空按鈕, 再由JavaScript去控制
+
+Homework 20220903
+製作一個fieldset表單
+    填寫員工基本資料的表單
+姓名: input text  性別: 男女 radio
+地址: input text
+出生日期: combobox年 combobox月 combobox日 1960-2022 1-12 1-31
+身份證字號: input text 
+    由JavaScript 去檢查身份證字號
+    以及控制年月日的限制(閏年大小月等)
+確定    重填
+作業命名格式 Lab_員工基本資料表單_學號
+
+下次上課
+資料庫管理 database
+使用 MariaDB 跟MySQL 是同一個設計團隊, 因原公司被併購, 但理念不合, 原團隊撤出重寫MariaDB
