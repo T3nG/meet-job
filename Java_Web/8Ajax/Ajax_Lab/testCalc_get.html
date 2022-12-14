@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+	<title>Ajax與Servlet</title>
+    <style>
+	  legend,label,span {
+	    font-size:24px;
+		color:#00f;
+	  }
+	  
+	  fieldset {
+	    border-width:3px;
+		border-color:#ff00ff;
+		width:8cm;
+	  }
+	  
+	  label,span {
+	    font-size:24px;
+		color:#f00;
+	  }
+	</style>
+    <script>  
+      var xmlHTTP;  
+
+ 
+    </script>	
+  </head>
+
+  <body> 
+	<fieldset>
+	  <legend>四則運算</legend>
+	  <form name="myform">
+		數值1：<input type="text" name="number1" size="5"><p>
+		數值2：<input type="text" name="number2" id="number2" size="5"><p>
+		運算符號：
+	    <select name="operator" size=1>
+		  <option value="" selected="selected">請選擇</option>
+		  <option value="1">加</option>
+		  <option value="2">減</option>
+		  <option value="3">乘</option>
+		  <option value="4">除</option>
+		</select>
+	    <input type="button" value="計算" onClick="xxxxxx()">
+	    <input type="reset" value="重填">
+		<p>				
+	  </form>
+	  <label>結果：</label><span id="result">0.0</span>
+	</fieldset>
+	
+  </body>
+</html>
+

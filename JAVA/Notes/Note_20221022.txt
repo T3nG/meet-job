@@ -1,0 +1,512 @@
+四種迴圈 Unit8
+1. 
+while(判斷式){
+    主體
+}
+
+2.
+do {
+    主體
+} while(判斷式);
+
+3.
+for(變數=初值;判斷式;變數增減值){
+    主體
+}
+
+4.
+enhance for
+    語法:
+        for(資料型態 變數: 容器物件){
+            主體
+        }
+    說明:
+        1. 用途是走訪容器內的每一個元素
+        2. 變數的資料型態要與容器一致, 但是支援promotion
+        3. 變數必須宣告在迴圈裡面
+
+==================
+迴圈的專用敘述
+1.break
+    break       中斷目前所處的迴圈
+    break label 中斷label所標記的迴圈
+
+    outer:
+        while(){
+            for(){
+                if(條件成立)
+                    break;       => 僅結束for迴圈
+                    break outer; => 結束整個while迴圈
+            }
+        }
+
+2.continue
+    continue       返回目前所處的迴圈起點, 繼續執行
+    continue label 返回label所標記的迴圈起點, 繼續執行
+
+    例: 計算 1~10的奇數和
+        total=0;
+        for(int x=1;x<=10,x++){
+            if(x%2==0){
+                continue;
+            total+=x;
+            }
+        }
+=========================
+時間的延遲
+
+傳統作法
+    for(int/long ...);
+
+Java的作法
+    Thread.sleep(毫秒)
+        說明: thread執行緒
+        1. Thread的套件路徑在java.lang
+        2. Java程式中一個執行單位稱為thread
+        3. 目前我們所撰寫的程式是single thread, 
+           名稱為main thread
+        4. 一般用電腦都是multi-thread在跑
+===========================
+
+Java所提供的排序
+
+Array類別
+    1.套件路徑在java.util
+    2.類別方法
+        sort(基本資料型態[])            
+            => 由小而大排序
+
+        sort(基本資料型態[],索引1,索引2)
+            => 從索引1到索引2的前一個元素, 由小而大排序
+
+        sort(類別型態[])
+            => 由小而大排序
+
+        sort(類別型態[], Collections.reverseOrder())
+            => 由大而小排序
+
+            說明:
+                Collections.reverseOrder()
+                是系統內建的排序規則
+                套件路徑在java.util
+==============================
+
+Eclipse 似乎不支援Console的用法?
+要1.6版才有?
+    JCreator 可以
+==============================
+
+巢狀迴圈
+    
+    說明: 
+    1. 是指迴圈主體內還有其他的迴圈
+    2. 依迴圈的組合方式, 可以區分為
+        內層迴圈數固定
+            如繪製表格
+                3列5欄的表格
+                內層迴圈控制列
+                外層迴圈控制欄
+        內層迴圈數會隨外層而變
+            如資料的排序
+                十筆資料, 最大的取出 => 九筆資料 ...
+
+
+內層迴圈數固定:
+    九九乘法表
+    1 * 1 = 1
+    1 * 2 = 2
+    1 * 3 = 3
+    ...
+    5 * 1 = 2
+    ...
+    9 * 8 = 72
+    9 * 9 = 81
+
+    內層1~9
+    外層1~9
+
+    for(x=1;x<=9;x++){
+        for(y=1;y<=9;y++){
+            System.out.println(x + "*" + y + "=" + x*y);
+        }
+    }
+
+    若想輸出成九宮格式
+    1*1=1  2*1=2  3*1=3
+    ...
+
+    4*1=4  5*1=5  6*1=6
+    ...
+
+    7*1=7  8*1=8  9*1=9
+
+		int x,y;
+	    for(x=1;x<=7;x+=3){
+	        for(y=1;y<=9;y++){
+	             System.out.printf("%d*%d=%2d  %d*%d=%2d  %d*%d=%2d\n",x,y,x*y,x+1,y,(x+1)*y,x+2,y,(x+2)*y);
+	        }
+	    System.out.println();
+	    }
+
+        int x,y;
+	    for(x=1;x<=7;x+=3){
+	        for(y=1;y<=9;y++){
+	            System.out.printf("%d*%d=%2d\t,x,y,x*y);
+                System.out.printf("%d*%d=%2d\t,x+1,y,(x+1)*y");
+                System.out.printf("%d*%d=%2d\t,x+2,y,(x+2)*y";
+	        }
+	    System.out.println();
+	    }
+
+內層迴圈數會隨外層而改變:
+    *
+    **
+    ***
+    ****
+    *****
+    ******
+    
+    x    y
+    1    1~1
+    2    1~2
+    3    1~3
+    4    1~4
+    5    1~5
+    6    1~6
+
+        int x, y;
+        for( x=1; x<=6; x++ )
+        {        
+			for( y=1; y<=x; y++ )
+			{
+				System.out.print("*");
+			}
+              
+			System.out.println();
+        }
+
+    *
+    ***
+    *****
+    *******
+    *********
+    ***********
+
+    x  2*x-1   y
+    1  1       1~1
+    2  3       1~2
+    3  5       ...
+    4  7
+    5  9
+    6  11      1~11
+
+        int x, y;
+        for( x=1; x<=6; x++ )
+        {        
+			for( y=1; y<=x*2-1; y++ )
+			{
+				System.out.print("*");
+			}
+              
+			System.out.println();
+        }
+    
+         *
+        ***
+       *****
+      *******
+     *********
+    ***********
+
+    x  空白z  6-x
+    1  1~5   5
+    2  1~4   4
+    3  1~3   3
+    4  1~2   2
+    5  1~1   1
+    6  1~0   0
+    
+    z = 1~6-x
+
+    int x,y,z;
+    for(x=1;x<=6;x++){
+        for(z=1;z<=6-x;z++){
+            System.out.print(" ");
+        }
+        for(y=1;y<=x*2-1;y++){
+            System.out.print("*");
+        }
+        System.out.println();
+    }
+
+    但是這樣的寫法在Java中不及格, 並沒有產生空白的程式
+    
+    以符合物件導向的方式去寫, 建立 空格函數, static ? 誰叫用都一樣
+
+    class Space{
+        public static void spc(int n){
+            for (int z=1;z<=n;z++){
+                System.out.print(" ");
+            }
+        }
+    }
+    
+    建立工具箱Space (意即定義了一個類別space), 提供類別方法spc(),
+    用途是產生空白
+
+public class U906_Dim4{
+    public static void main(String[] args){
+        int x,y,z;
+        for(x=1;x<=6;x++){
+            Space.spc(6-x);
+            for(y=1;y<=x*2-1;y++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+}
+
+class Space{
+    public static void spc(int n){
+        for (int z=1;z<=n;z++){
+            System.out.print(" ");
+        }
+    }
+}
+
+    => class Space 自訂工具箱
+
+    => 提升成共用的工具箱
+
+package com.ted;
+public class Space{
+    ...
+}
+
+save as space.java
+
+變成獨立的外部檔案
+
+很多時候程式是許多人一起撰寫專案
+
+工作目錄
+|
+|--U907.Dim.java
+|
+|--com
+    |
+    |--ted
+        |--space.java
+
+=> Unit9
+        U907
+
+        讓所有人(而不是只在專案底下可以叫用)可以寫成jar檔案
+        下次再教
+
+例:
+     *       -5
+    ***      -4
+   *****     -3
+  *******    -2
+ *********   -1
+***********   0
+ *********    1
+  *******     2
+   *****      3
+    ***       4
+     *        5
+
+ x  y    abs(x)   11-abs(x)*2
+-5  1~1     5       1
+-4  1~3     4       3
+-3  1~5     3       5
+-2  1~7     2       7
+-1  1~9     1       9
+ 0  1~11    0       11
+ 1  1~9     1       9
+ 2  1~7     2       7
+ 3  1~5     3       5
+ 4  1~3     4       3
+ 5  1~1     5       1
+
+int x,y;
+for(x=-5;x<=5;x++){
+    Space.spc(Math.abs(x));
+    for(y=1;y<=11-Math.abs(x)*2;y++){
+        System.out.print("*");
+    }
+    System.out.println();
+}
+
+但這樣寫還是不及格
+Math.abs(x) 叫用了兩次以上
+
+int x,y;
+for(x=-5;x<=5;x++){
+    int absx=Math.abs(x);
+    Space.spc(absx);
+    for(y=1;y<=11-absx*2;y++){
+        System.out.print("*");
+    }
+    System.out.println();
+}
+
+
+=======================================
+自訂排序
+
+Bubble Sort
+氣泡排序法
+    說明:
+    1.排序的原理是
+        前後資料比較大小, 而後調整順序
+    2.以n筆資料而宜
+        比較 n-1 輪
+        每一輪比較 n-1 次
+            排序等級為 ...(n^2)
+
+
+15   8  25  48   2  10             
+
+第1輪: 比較5次
+15   8  25  48   2  10
+ 8  15  25  48    
+             2  48
+                10  48
+第2輪:
+ 8  15  25  
+         2  25
+            10  25  48
+...
+
+第幾輪由外層迴圈檢測
+
+x   y
+1   0~4
+2   0~4
+3   0~4
+4   0~4
+5   0~4
+
+ary[0] : ary[1]
+ary[1] : ary[2]
+ary[2] : ary[3]
+ary[3] : ary[4]
+ary[4] : ary[5]
+
+ary[y] : ary[y+1]
+
+int x,y;
+int[] ary = {15, 8, 25, 48, 2, 10};
+for(x=1;x<=ary.length-1;x++){
+    for(y=0;y<ary.length-1;y++){
+        if(ary[y]>ary[y+1]){ //若前一個數比較大(或比較小<), 交換
+            //swap
+            int temp;        // temp離開if就被回收, 減少佔用記憶體的時間
+            temp=ary[y];
+            ary[y]=ary[y+1];
+            ary[y+1]=temp;
+        }
+    }
+}
+for(int num : ary) System.out.print(num + "  ")
+
+叫用多次函數的影響比較大
+要用變數來存 ary.length也是可以
+
+內層迴圈數固定
+
+    改良
+        理由: 第1輪已找到該輪最大或最小值, 在下一輪應該排除
+        1.每一輪比較後一定會產生該輪的最大值(遞增)或最小值(遞減)
+        2.該元素不應再參加下一輪的比較
+        3.因此巢狀迴圈要由內層迴圈數固定改為隨外層改變
+
+x   y                       y    5-x
+1   0-1,1-2,2-3,3-4,4-5     0-4  4
+2   0-1,1-2,2-3,3-4         0-3  3
+3   0-1,1-2,2-3             0-2  2
+4   0-1,1-2                 0-1  1
+5   0-1                     0-0  0
+
+int x,y;
+int[] ary = {15, 8, 25, 48, 2, 10};
+for(x=1;x<=5;x++){         => x<=ary.length-1    => x<ary.length
+    for(y=0;y<=5-x;y++){   => y<=ary.length-1-x  => y<ary.length-x
+        if(ary[y]>ary[y+1]){ //若前一個數比較大(或比較小<), 交換
+            //swap
+            int temp;        // temp離開if就被回收, 減少佔用記憶體的時間
+            temp=ary[y];
+            ary[y]=ary[y+1];
+            ary[y+1]=temp;
+        }
+    }
+}
+for(int num : ary) System.out.print(num + "  ")
+
+        //改良 BubbleSort 排序的次數變少了
+        //n筆資料原本需排 (n-1)^2 次, 改良後只需排 n(n-1)/2 次
+
+內層迴圈數依外層改變
+
+如果是已經排好的序列呢?是否能直接break掉呢?
+    在程式中設計判讀機制, 機制的目的是評估已完成排序, 而後立即中斷排序
+    這個機制不可以用函數, 太繁複了
+    用if判斷式就好了
+
+=======================================
+
+迴圈的另一種寫法
+
+寫迴圈時很怕發生 蘇武牧羊 無窮迴圈
+
+但卻在某些時候需要設計無窮迴圈
+    語法:
+        while 比較順眼
+
+        while(true){
+            主體
+        }
+
+        for(;;){
+            主體
+        }
+
+        do{
+            主體
+        } while(true);
+
+    說明:
+    1.使用的原因是迴圈的判斷式較複雜
+    2.必須要留出口
+        if(條件成立) break;
+
+
+=======================================
+lab1
+
+1*1= 1  1*2= 2
+2*1...
+...
+9*1...
+
+lab2
+     *
+    * *
+   * * *
+  * * * * 
+ * * * * *
+* * * * * *
+ * * * * *
+  * * * * 
+   * * *
+    * *
+     *
+
+lab3
+BubbleSort3
+把機制做出來, 若已排序完成則退出迴圈break
+
+ary[0]>ary[1]>ary[2]>ary[3]

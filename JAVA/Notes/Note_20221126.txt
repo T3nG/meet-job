@@ -1,0 +1,75 @@
+Type1: 只支援到jdk7
+    1. DatabaseL MySQL 5.5 (舊版)
+    2. Connector-ODBC: 32位元版
+    3. Java: Java7 (1.7)
+
+    Unit18
+    Step1: 下載ODBC (32位元/64位元), 設定ODBC
+        命令提示字元 進到MySQL 5.5/bin
+        mysql -u root -p
+        輸入密碼
+        source 目錄下的Create_mysql.sql
+        use mydb;
+        show tables;
+        select * from employee;
+        exit;
+
+        ODBC 裝32位元的
+            win10 控制台/系統管理工具/ODBC 資料來源 (64位元), ODBC 資料來源管理員 (32位元)
+            選32位元的/系統資料來源名稱/新增/MySQL ODBC 5.3 ANSI Driver (若MySQL安裝是Big5)
+            Data Source Name: ok (對應MySQL_Connect.java中 String sCon='jdbc:odbc:ok')
+            Description: 
+            TCP/IP Server: localhost  Port: MySQL 5.5 安裝的port
+            User: root
+            Password:
+            Database: 選一個連線 test
+            OK
+    Step2: 載入ODBC Driver
+        Class.forName(參數)
+        參數內容: sun.jdbc.odbc.JdbcOdbcDriver
+    Step3: 建立Connection物件
+        DriverManager.getConnection(參數)
+        參數內容: jdbc:odbc:ok (ok: 資料來源名稱)
+        資料來源名稱是設定ODBC時指定的
+    Step4: 建立SQL子句
+    Step5: 建立Statement物件
+        由Connection物件建立.CreateStatement()
+
+    為了測試需要安裝 jdk7
+
+範例: MySQL_GetRow.java
+JDBC:
+    說明: Statement物件的用途是傳送要執行的SQL子句, 主要的成員方法有:
+        1. execute()  回傳true/false, 用意是檢查資料表是否存在
+        2. executeQuery()  回傳 ResultSet物件, 即查詢結果
+        3. execueUpdate()  回傳受影響的筆數
+
+    資料的查詢:
+    Step6: 執行SQL子句, 建立ResultSet物件
+        Statement物件.executeQuery(SQL子句)
+        說明: ResultSet物件可視為購物袋
+    Step7: 讀取ResultSet物件內容
+
+
+Type4: Mariadb_Connect.java, Mariadb_GetRow.java
+    Step1: 下載Jar檔, 存放在特定的位置
+        1. jdk的安裝目錄下\jre\lib\ext
+        2. c:\program files\Java\jre版本\lib\ext
+        3. 自訂的資料夾
+        jar檔案下載網址:
+            mariadb\download\connectors\connecterJ\
+            範例提供的是2.4.3
+    Step2: 載入Driver
+        Class.forName(參數)
+        參數的內容: org.mariadb.jdbc.Driver
+    Step3: 建立Connection物件
+        DriverManager.getConnection(url, 帳號, 密碼)
+        url: jdbc:mariadb://localhost:3306/database name(看要連接的mariadb port是多少, 若為預設3306可省略)
+    Step4: 建立SQL子句
+    Step5: 建立Statement物件
+        Connection物件.createStatement()
+
+下週課程預告
+    Eclipse for Java EE
+    Java 8
+    TomCat 伺服器

@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+	<title>表單與ServletCase2</title>
+    <style>
+	  legend {
+	    font-size:24px;
+		color:#00f;
+	  }
+	  
+	  fieldset {
+	    border-width:3px;
+		border-color:#f0f;
+		width:8cm;
+	  }
+	</style>	
+  </head>
+  <script language="Javascript">
+    function checkData(form){
+    	if(form.number1.value == "" || form.number2.value.length == 0){
+    		window.alert("請輸入數值")
+    		return false
+    	}
+    	if(form.operator.value == "nul"){
+    		window.alert("請選擇運算方式")
+    		form.operator.focus()
+    		return false
+    	}
+    	var re=/^(\-)?\d+(\.\d*)?/
+    	//var re=/^[0-9]/
+    	if(!re.test(form.number1.value)){
+    		window.alert("數值1資料不正確")
+    		//form.number1.focus()  //輸入焦點移到此處
+    		form.number1.select() //反白選取(框選)
+    		return false
+    	}
+    	if(!re.test(form.number2.value)){
+    		window.alert("數值2資料不正確")
+    		form.number1.select()
+    		return false
+    	}
+    	if(form.operator.value == "div" && form.number2.value == 0){
+    		window.alert("除數不得為 0")
+    		return false
+    	}
+    	document.myform.submit()
+    }
+  </script>
+
+  <body bgcolor="yellow"> 
+
+	<fieldset>
+	  <legend>選取運算方式</legend>
+	  <form name="myform" method="get" action="http://localhost:8080/CaseStudy/doCalc2">
+		數值1：<input type="text" name="number1" size="5"><p>
+		數值2：<input type="text" name="number2" size="5"><p>
+		運算符號：
+	    <select name="operator" size=1>
+		  <option value="nul">請選擇</option>
+		  <option value="add">加</option>
+		  <option value="sub">減</option>
+		  <option value="mul">乘</option>
+		  <option value="div">除</option>
+		</select>
+		<p>
+	    <input type="button" value="傳送" onclick="checkData(this.form)">
+	    <input type="reset" value="重填">
+		
+	  </form>
+	</fieldset>
+	
+  </body>
+</html>

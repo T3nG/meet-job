@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+	  var xmlHTTP;
+
+      function check()
+      {  
+        var select_op=document.getElementById("select_op").value;
+
+        if(window.ActiveXObject)
+        {
+          xmlHTTP=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        else if(window.XMLHttpRequest)
+        {
+          xmlHTTP=new XMLHttpRequest();
+        }
+    
+        xmlHTTP.open("GET","http://localhost:8080/Ajaxtest/doAjaxSelect?select_op="+select_op, true);
+    
+        xmlHTTP.onreadystatechange=function check_status()
+        {
+          if(xmlHTTP.readyState == 4)
+          {
+            if(xmlHTTP.status == 200)
+            {
+                var str=xmlHTTP.responseText;
+                document.getElementById("message").innerHTML="<span style='font-size:1cm;color:red'>"+str+"</span>";
+            }
+          }
+        }
+        xmlHTTP.send();
+      }
+
+	</script>
+	
+    <title>Ajax</title>
+  </head>
+  <body>
+    選項：
+    <select id="select_op" onchange="check()";>
+      <option  value="" selected="selected">請選擇</option>
+      <option value="1">選項1</option>
+      <option value="2">選項2</option>
+      <option value="3">選項3</option>
+    </select>
+    <p>
+    回應訊息：<div id="message"></div>
+  </body>
+  
+</html>

@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>員工基本資料表單</title>
+        <style>
+            input{
+		    background:#CCF;
+		    border:#AAA 1px solid;
+            }
+        </style>
+
+        <script language="Javascript">
+        function createYearOptions(){
+            var d = new Date();
+            var currentYear = d.getFullYear();
+            var yearOptions = "<option value='0'>select</option>";
+            var monthOptions = "<option value='0'>select</option>";
+            var dayOptions = "<option value='0'>select</option>";
+
+            for (var i=1900; i<currentYear+1; i++){
+            	yearOptions += "<option value='"+i+"'>"+i+"</option>";
+            }
+            for (var j=1; j<13; j++){
+            	monthOptions += "<option value='"+j+"'>"+j+"</option>";
+            }
+            for (var k=1; k<32; k++){
+            	dayOptions += "<option value='"+k+"'>"+k+"</option>";
+            }
+            document.getElementById("year").innerHTML = yearOptions;
+            document.getElementById("month").innerHTML = monthOptions;
+            document.getElementById("day").innerHTML = dayOptions;
+        }
+        	
+        function checkData(form){
+            var total = 0;
+            const chkid = "0123456789ABCDEFGHJKLMNPQRSTUVXYWZIO"; 
+            const username = form.username.value;
+            const gender = form.gender.value;
+            const address = form.address.value;
+            const idNumber = form.id_number.value.toUpperCase();
+            const reg = /^[A-Za-z][12]\d{8}$/
+            const c1 = chkid.indexOf(idNumber.charAt(0));
+            
+            if(username.length == 0){
+            	alert('請輸入姓名');
+            	return false;
+            }
+            if(gender == ''){
+            	alert("請選擇性別");
+            	return false;
+            }
+            if(address == ''){
+    		    alert("請輸入地址");
+    		    return false;
+    	    }
+            if(form.year.value == 0 || form.month.value == 0 || form.day.value == 0){
+            	alert("請選擇日期");
+            	return false;
+            }
+            if (idNumber == ''){
+                alert("請輸入身分證字號");
+            	return false;
+            }
+            // 檢查格式
+    		if (!reg.test(idNumber)){
+    			alert("身分證字號格式錯誤");
+    			return false;
+    		}
+    		// 計算權重
+            for(var i=1;i<=8;i++){
+            	total += chkid.indexOf(idNumber.charAt(i))*(9-i);
+            }
+            total = total + chkid.indexOf(idNumber.charAt(9))*1 + parseInt(c1/10)*1 + (c1%10)*9;
+            
+            if(total%10 != 0){
+                alert("所輸入的身分證字號不合理");
+            	return false;
+           	}
+           	document.inputForm.submit();
+        }
+         </script>
+    </head>
+
+    <body onload="createYearOptions()">
+        <fieldset style="width: 360px;">
+        <legend style="font-size: 0.5cm; text-align: center;">員工基本資料表單</legend>
+        <form name="inputForm" method="post" action="http://localhost:8080/Basic/doSth">
+            <p>姓名:&nbsp;<input name="username" type="text">
+            	&nbsp;&nbsp;&nbsp;
+            	性別:
+                <input name="gender" type="radio" value="M">男
+                <input name="gender" type="radio" value="F">女
+            </p>
+            <p>地址:&nbsp;<input name="address" type="text" size="40px">
+            <p>
+               	出生日期:&nbsp;
+                <select name="year" size="1" id="year"></select>
+                年&nbsp;&nbsp;
+                <select name="month" size="1" id="month"></select>
+                月&nbsp;&nbsp;
+                <select name="day" size="1" id="day"></select>
+                日
+            </p>
+            <p>身分證字號:&nbsp;<input name="id_number" type="text">
+            <p>
+                <input style="background-color: white;" type="button" value="送出" onclick="checkData(this.form)">
+                <input style="background-color: white;" name="reset" type="reset" value="重填">
+            </p>
+        </form>
+        </fieldset>
+    </body>
+</html>

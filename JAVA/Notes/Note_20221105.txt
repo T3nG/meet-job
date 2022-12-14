@@ -1,0 +1,394 @@
+只能作為工具箱的類別: final 類別
+只能透過繼承的類別: abstract 類別
+以上兩者都有: 一般類別
+
+=======
+抽象類別
+=======
+定義的語法:
+    [public] abstract class 自訂名稱 [extends 基礎類別]{
+        成員
+    }
+
+說明:
+    1.必須得透過繼承才能使用
+    2.成員有
+        a.一般類別的成員
+        b.含有抽象方法的成員
+    
+
+
+=======
+抽象方法
+=======
+定義的語法:
+    [access] 回傳值型態 方法名稱(參數群);
+
+說明:
+    1.只有宣告而無主體的成員方法
+    2.目的是要求繼承者override
+    3.含有抽象方法的類別必然是抽象類別
+
+
+=========
+final類別
+=========
+定義的語法:
+    [public] final class 自訂名稱 [extends 基礎類別]{
+        成員
+    }
+
+說明:
+    1.不允許被繼承的類別
+        基於安全性的考量
+    2.成員是一般類別的成員
+    3.純粹是工具箱類別
+
+
+=========
+final方法
+=========
+定義的語法:
+    [access] final [static] 回傳值型態 方法名稱(參數群){
+        主體
+    }
+
+說明:
+    1.有完整功能的成員方法
+    2.不允許被override
+
+
+============
+Polymorphism
+============
+/*得繼承+override*/
+
+abstract class 員工{
+    ...
+    abstract int getSalary();
+}
+
+class 經理 extends 員工{
+    int getSalary(){
+        return 65000;
+    }
+}
+
+class 主任 extends 員工{
+    int getSalary(){
+        return 42000;
+    }
+}
+
+class 秘書 extends 員工{
+    int getSalary(){
+        return 35000;
+    }
+}
+
+員工 nana = new 經理();
+員工 lulu = new 主任();
+員工 lily = new 秘書();
+/* 
+   經理 manager = new 經理();
+   員工 nana = manager;
+   若原先沒設想到poloymorphism, 可以改成這樣
+*/
+
+/*宣告父類別的物件, new 子類別的建構*/
+
+=============
+Interface介面
+=============
+定義的語法:
+    [public] interface 自訂名稱 [extands 父介面1, 父介面2,...]{
+        成員
+    }
+
+說明:
+    1.另一種面向的類別, 編譯過後依舊產生.class檔
+    2.介面支援多重繼承
+    3.類別繼承必須使用 implements
+        extends xxx implements xxx
+    4.成員
+        a.屬性: 是常數, 宣告時可省略 final, static
+        b.成員方法: 是抽象方法, 定義時可省略 abstract
+    
+
+interface IShape{...}
+
+interface IColor{...}
+
+interface MyInterface extends IShape, IColor{}
+
+class CCircle implements MyInterface{...}
+
+/*多設計一個 MyInterface, 這樣就不用打太多次
+class CCircle implements IShape, IColor*/
+
+=============
+Wrapper class
+=============
+說明:
+    1.泛指型態包封類別
+    2.主要的類別有
+        Byte, Short, Integer, Long, Float, Double, (共同的父類別是Number)
+        Character, Boolean
+    3.套件路徑都是java.lang
+    4.用途
+        裝箱, 拆箱
+        字串與數值的轉換
+        字元的檢查
+            主要是Character
+
+1.裝箱, 以Integer為例
+    Integer 物件 = new Integer(整數 / 整數變數)
+        Integer oo = new Integer(123);
+
+        Short pp = new Short(123);  => 123預設是int
+            解法
+                short x=123;
+                Short pp = new Short(x);
+
+2.拆箱, 以Integer為例, 多樣性拆
+    int 變數 = Integer物件.intValue();
+
+    int a = oo.intValue();       => int a = 123; 
+    byte b = oo.byteValue();     => byte b = 123;
+    short c = oo.shortValue();   => short c = 123;
+    long d = oo.longValue();     => long d = 123;
+    float e = oo.floatValue();   => float e = 123.0;
+    double f = oo.doubleValue(); => double f = 123.0;
+
+    拆箱時要注意是否會超出變數的值域範圍, 超出時會自動做Casting, 超過的部分會被砍掉
+
+
+====================================
+數字字串轉數值, 以Integer, Double為例
+====================================
+int 變數 = Integer.parseInt(數字字串)
+
+String num = "123";
+int x = Integer.parseInt(num);
+
+String num2 = "123.45";
+double x = Double.parseDouble(num2);
+
+
+====================================
+數值轉數字字串
+====================================
+String 物件 = Integer.toString(整數)
+String 物件 = Double.toString(浮點數)
+
+String 物件 = String.valueOf(整數 / 浮點數)
+
+
+====================================
+數值轉數字字串
+====================================
+Character pp = new Character('z');
+char p = pp.charValue();  =>  char p='z'
+
+
+====================================
+自動裝箱, 以Integer為例
+====================================
+說明:
+    jdk5的新語法
+
+    Integer 物件 = 整數 / 整數變數
+
+    新
+    Integer oo = 123;
+
+    舊
+    Integer pp = new Integer(123);
+
+
+int[] ary = {10,20,30};
+ArrayList<Integer> list = new ArrayList<>();
+
+舊
+list.add(new Integer(10));
+list.add(new Integer(20));
+list.add(new Integer(30));
+
+新-自動裝箱
+list.add(10);
+list.add(20);
+list.add(30);
+
+
+
+====================================
+自動拆箱, 以Integer為例
+====================================
+int 變數 = 物件
+
+int x = oo;
+
+
+====================================
+自動裝箱注意事項
+====================================
+    //case 2
+    Integer ref3 = 100;  
+    Integer ref4 = 100; 
+        
+    System.out.println(ref3.equals(ref4));   => true
+    System.out.println(ref3 == ref4);        => true
+    System.out.println();
+      
+    //case 3
+    Integer ref5 = 128;  
+    Integer ref6 = 128;
+      
+    System.out.println(ref5.equals(ref6));    => true
+    System.out.println(ref5 == ref6);         => false
+
+    小於byte (-128~127) 會重複使用記憶體空間
+
+
+
+====================================
+字串類別
+====================================
+說明:
+    1.常用的字串類別有
+        String
+            字串內容不允許變更
+            支援多執行緒
+        StringBuffer
+            可直接對字串內容編輯
+            支援多執行緒
+        StringBuilder
+            同上
+            僅支援單一執行緒
+    2.套件路徑在java.lang
+
+
+String str = "ABCD";
+str = str.concat("abcd");   str=>"ABCDabcd" 參考變更
+
+StringBuffer str2 = "ABCD";
+str2.append("abcd"); 
+
+
+1.建立物件
+    String 物件 = "字串常數"
+    String 物件 = new String("字串常數")
+    String 物件 = new String(char[])
+    String 物件 = new String(char[],索引,個數)
+    String 物件 = new String(byte[])
+    String 物件 = new String(byte[],索引,個數)
+    String 物件 = new String( StringBuffer物件 / StringBuilder物件 )
+
+2.成員方法
+    String str = "ABCabcdABC";  =>長度10
+              索引0123456789
+    
+    str.length();  =>  10, 字串長度
+    str.toUpperCase();  =>  "ABCABCDABC"
+    str.toLowerCase();  =>  "abcabcdabc"
+    str.indexOf('d');  =>  6, 索引值
+    str.indexOf('H');  =>  -1, 無此字元
+    str.indexOf(99);  =>  3, a的索引值
+    str.indexOf('A',4)  =>  7, 從索引值4開始搜尋
+        由左而右搜尋
+    str.indexOf("BC")  =>  1, 首字字元的索引值
+    str.indexOf("BC",4)  =>  8, 從索引值4開始搜尋, 首字字元的索引值
+
+    反向搜尋(由右往左)
+        lastIndexOf()
+
+        判斷是否唯一, 從左邊往右找, 從右邊往左找, 找到的索引值都一樣, 即唯一
+        str.indexOf('b') == str.lastIndexOf('b')
+        str.indexOf('BC') == str.lastIndexOf('BC')
+    
+    str.startsWith("ABC")  => true, 問起始字串是否是ABC
+    str.startsWith("ABC",7)  =>  true, 從索引值7開始找
+    str.endsWith("ABC")  =>  true, 末尾字串是否是ABC, 無法設索引值
+    str.charAt(4)  =>  'b'
+    str.replace('B','H')  => "AHCabcdAHC"
+    str.replqce("BC","123")  => "A123abcdA123"
+        取代子字串時, 長度可以不相同
+    str.concat("123")  =>  "ABCabcdABC123"
+        較少用, 因可用 + 取代
+    str.substring(3,7)  =>  "abcd", 3<= x <7
+    srt.substring(3)  =>  "abcdABC", 至索引值開始取字串
+    str.join("子字串", 容器)  =>  將容器的元素以子字串串接成長字串
+        容器包含陣列
+        String[] names = {"lily","lulu","nana"};
+        String mystr = String.join("==",names);
+        
+        mystr  =>  "lily==lulu==nana"
+
+=============
+身分證字號規則
+=============
+package Unit12.String.Lab;
+import java.io.*;
+
+public class Lab_CheckID_AD_1055717751{
+    public static void main(String[] args) throws IOException{
+    int c1, c2, total;
+    String id;
+    String chkid = "0123456789ABCDEFGHJKLMNPQRSTUVXYWZIO"; 
+    BufferedReader keyin = new BufferedReader(new InputStreamReader(System.in));
+
+    c1 = c2 = total = 0;         
+    System.out.print("請輸入身分證字號:");
+    id = keyin.readLine();
+
+    if(id.length()!=10){
+        System.err.println("長度不正確！");
+        System.exit(0);
+    }
+
+    id = id.toUpperCase();
+    c1 = chkid.indexOf(id.charAt(0));
+    c2 = chkid.indexOf(id.charAt(1));
+    
+    if(c1<10){
+        System.err.println("首字字元不正確！");
+        System.exit(0);
+    }
+
+    if(c2<1 || c2>2){
+        System.err.println("性別欄不正確！");
+        System.exit(0);
+    }
+    
+    // 檢查第3~第10個字元 
+    for(int i=1;i<=8;i++) {
+    	int c = Character.getNumericValue(id.charAt(i));
+    	total += c*(9-i);
+    }
+    total = total + Character.getNumericValue(id.charAt(9))*1 + (c1/10)*1 + (c1%10)*9;
+    
+    /*
+    第2~9個字元
+    Character.getNumericValue(id.charAt(1))*8
+	Character.getNumericValue(id.charAt(2))*7
+	Character.getNumericValue(id.charAt(3))*6
+    Character.getNumericValue(id.charAt(4))*5
+    Character.getNumericValue(id.charAt(5))*4
+    Character.getNumericValue(id.charAt(6))*3
+    Character.getNumericValue(id.charAt(7))*2
+    Character.getNumericValue(id.charAt(8))*1
+    
+    檢查碼
+    Character.getNumericValue(id.charAt(9))*1
+    
+    首字字母
+	c1/10 => 取商數
+	c1%10 => 取餘數
+    */
+
+    if(total%10 != 0)
+        System.out.println("不是身分證字號");
+    else
+        System.out.println("合理的身分證字號");
+   }       
+}

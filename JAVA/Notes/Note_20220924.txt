@@ -1,0 +1,454 @@
+老師說
+C# 就是 Microsoft 的Java    
+
+=================================================================
+
+程式語言的世代
+
+    第一代 - Machine Language
+        以 0 1 為符號
+        011010110001110011111001
+
+    第二代 - Assembly Language
+        以協助記憶的符號, 以英文為主
+        ADD AX, 1
+        是優點也是缺點, 直接對CPU
+        CPU世代更迭迅速, 每次更新硬體都要連整套軟體都更新
+
+    以  上 - Low-level Language 較靠近硬體層面
+
+    第三代 - Hight-level Language
+        以自然語言的符號
+        x=x+1 ,"="的意義 右邊放到左邊
+        變數代表一個記憶體空間, 右邊先計算, 再放回去原本的空間
+
+    第四代 - Package
+        撰寫工具+轉換工具: IDE 整合環境的開發工具
+
+=================================================================
+
+開發環境 IDE
+
+JAVA\JDK\jdk-8  長青版
+JAVA\JDK\jdk-17 長期維護版
+         jdk-11 長期維護版
+         jdk-19 目前最新版
+
+新的語法在新版才有, 學基礎語法用Java8即可
+考一次認證要250美金+手續費等 OCA OCP
+=================================================================
+
+程式語言的轉換
+直譯器interpreter 編譯器compiler 組譯器assembler
+
+1.直譯式:
+    消耗的系統資源比較少, 速度也較慢(得看硬體設備)
+    對程式設計師較不友善, 每次執行, 原始碼都要送出去
+        原始程式   ->直譯器      ->邊翻譯邊執行
+        index.html->瀏覽器      ->顯示
+        test.py   ->python.exe ->顯示
+    
+2.編譯式/組譯式:
+    以Windows系統為例
+
+    calc.cpp(以C++寫成)  |   calc.asm
+    -> C/C++編譯器       |   -> 組譯器
+    -> calc.obj(machine code)  
+    -> 連結器 
+    -> calc.exe(可執行的程式) 
+    -> compress
+    -> calc.com(不完整的執行檔) 檔案太大就無法轉換, 有個限制在
+
+    進cmd 或者進入執行也可以
+        calc.exe 就可以叫出小算盤
+        mspaint.exe 就可以叫出小畫家
+        winword.exe 可以打開word
+
+        format.com 磁碟機: => 格式化磁碟機, 得輸入磁碟區標籤名稱
+        label 磁碟機:      => 顯示磁碟區標籤名稱
+
+3.混合式(interpreter & compiler) 直譯+編譯
+跨平台的需求 write once run everywhere
+
+    以Java語言為例
+
+    game.java
+    ->編譯器javac
+    ->game.class(byte code)
+        ->win的直譯器(java) -> ...各系統可執行的程式
+        ->Mac的直譯器       -> ...各系統可執行的程式
+        ->Linux的直譯器     -> ...各系統可執行的程式
+        .
+        .
+    從game.java到各系統可執行的程式
+        java development kit 
+        jdk 8/11/17
+    
+    從game.class到各系統可執行的程式
+        java runtime environment
+        jre
+=================================================================
+
+jdk 安裝時
+
+jdk8 有2個jre jdk9以後才整合, jre的位置不管他
+=================================================================
+
+以我選用的安裝路徑為例 d:\java\..
+
+jdk1.8.0_333
+    bin
+        javac.exe (編譯器)
+        java.exe  (直譯器)
+    jre (私用的jre, 配合開發工具)
+
+jdk1.8.0_333 
+    公用的jre, 配合支援java的其他應用程式
+
+jdk安裝方式
+    1.建立必要的資料夾
+    2.然後住久就習慣了?
+使用者設定
+    1.設定javac/java的路徑
+        環境變數path的設定
+        系統/進階系統設定/環境變數/系統變數-path/編輯/加入路徑"jdk../bin"
+        在路徑中把這個新增的路徑拉到最上面, 確保目前使用的java是jdk8
+        如果電腦中有許多jdk版本, 可用這種方法去修改
+    2.測試
+        開新文字模式視窗
+        java -version
+        javac -version
+
+要申請Orcale會員, 認證考試需要會員等, 以及其他用途
+=================================================================
+
+編譯程式
+
+javac 原始程式檔名
+
+說明:
+    1.原始程式檔名必須是完整檔名(主檔名+副檔名)
+    2.是否區分大小寫依作業系統規定
+
+=================================================================
+
+執行程式
+
+java class檔名
+
+說明:
+    1.class檔案只使用主檔名
+    2.不論作業系統, 一律區分大小寫
+
+例 TestJDK.java
+進入cmd (文字模式的操作在許多作業系統都一樣, 所以要學會)
+進入檔案存放路徑 E:\project\meetjobs\JAVA\Part1\Unit0
+鍵入指令
+    javac TestJDK.java
+        建立TestJDK.class
+    java TestJDK
+
+    Java language is very good and rigorous!
+    Welcome to Java world.
+
+    解釋:
+    javac testjdk.java 也可以執行, 建立.class (依作業系統區分或不區分大小寫)
+    java testjdk/TestJDK.class 都無法執行
+
+    del *.class 刪除副檔名為class的檔案
+
+=================================================================
+
+軟體工程方法
+
+    程式要能夠分段, 實務上是team project居多
+
+程序導向
+    自訂函數
+        說明: 必須有回傳值
+    自訂程序
+        說明: 無回傳值
+
+    VB
+        Function GetData()
+        ...
+            GetData=回傳值
+        End Function
+
+        sub SetDate(name)
+        ...
+        End sub
+
+    C
+        int getdata()
+        ...
+        return 回傳值;
+
+        void setdate(char*name)    void即代表無回傳值
+        {
+            ...
+        }
+
+    Python
+        def getdata():
+        ...
+        return 回傳值
+        
+        def setdata():
+        ...
+
+        以有無return來區分函數或程序
+
+
+物件導向
+    class(類別) 規劃中的工具箱, 藍圖, 企劃書
+    object(物件) class的實體
+    member(成員) 
+        1.field       即變數
+        2.method      即自訂函數
+        3.constructor 建構式, 建立object時必須叫用的自訂函數
+
+    Java為純物件導向
+
+函數導向
+    將lambda的定義加入程式中
+
+=================================================================
+
+無      程序導向   物件導向   函數導向
+Python  Python    Python    Python
+        C
+        C++       C++       C++
+                  Java      Java
+        VB        VB
+
+站在學習的立場上, 最初學習的語言建議為 C / Java
+
+=================================================================
+
+創造人類 -> 規劃人類的藍圖 -> 建立人類
+class Human
+{
+    int head=1;
+    int eyes=2;
+    ...
+    int mouth=1;
+        以上為field 屬性
+    
+    void run(int dist){...}
+    void cry(){...}
+    void eat(string food){...}
+        以上為method 方法/成員方法
+    
+    Human(){...}
+    Human(string gender){...}
+        以上為constructor 建構式
+        建構式是另一種成員方法, 無回傳值, 名稱同類別名稱,
+        建立物件時必須叫用
+}
+
+Human Adam =    new     Human();
+類別  物件    配置記憶體  建構式
+
+
+在電腦裡, 給程式使用的只有三大塊
+stack  heap  static
+1. 在heap配置空間, 執行建構式
+2. 在stack創建Adam
+3. 連結Adam與heap中執行好建構式的配置空間
+
+Adam的眼睛:
+    Adam.eyes
+
+Human Eve;
+Eve = new Human("female");
+stack  heap  static
+1. 在stack創建Eve
+2. 在heap配置空間, 執行建構式
+3. 連結Eve與heap中執行好建構式的配置空間
+
+Eve吃蘋果:
+    Eve.eat("apple");
+=================================================================
+OOP 程序導向
+POP 物件導向
+
+什麼.什麼 就是物件導向的語法
+
+E:\project\meetjobs\JAVA\Part1\Unit0\OOP_vs_POP
+
+=================================================================
+
+以cmd跑指令javac Human.java時
+無法辨識非Big5編碼下的中文字
+因為會使用系統預設編碼 Big5
+在javac 與 java檔之間加上這行即可
+-encoding utf-8
+
+vscode 中右下角可以點擊更改編碼, 以XX編碼方式開啟檔案
+
+=================================================================
+
+檔案的命名
+
+pulic class A{...}
+class B{...}
+檔名: A.java
+
+說明: public 是對外開放的等級
+    對class而言分2種
+    1是public 2是預設
+
+有public class的時候, 檔名必須以public class的名稱作為主檔名
+一個檔案不可以有多個public class
+
+class A...
+class B...
+檔名無規範, 使用者自己訂
+    class檔 A.class
+            B.class
+
+
+在cmd下改檔名
+ren Hello2.java MyHello.java
+
+=================================================================
+
+識別字的命名
+
+public class ABC    <--識別名稱ABC
+{
+    int a=123;      <--屬性名稱a
+    static final B=456;   <--B常數
+
+    void show(){    <--方法(成員方法)名稱show
+        int c=789;  <--區域變數名稱c
+    }
+}
+
+Java中沒有全域變數這件事, 但a的功能類似
+去掉static final的b 是類別變數?
+
+命名的慣例
+    常數: 使用大寫英文字母與底線
+            MAX_SIZE, PI
+    屬性: 第一個英文單字小寫, 第二個英文單字以後採首字字元大寫
+    變數: 第一個英文單字小寫, 第二個英文單字以後採首字字元大寫
+            name, counter, ageOfStudent
+    方法: 第一個英文單字小寫, 第二個英文單字以後採首字字元大寫
+            setPosion, getPosion
+    類別: 每個英文單字首字字元大寫
+            Frame, MyTools
+    (不可使用key word或reserved word)
+
+    key word愈少學起來較容易 python只有30幾個
+
+=================================================================
+
+類別名稱重複
+
+A公司
+    class MyTools{...}
+    =>MyTools.class
+
+B公司
+    class MyTools{...}
+    =>MyTools.class
+
+要怎樣才能叫到對的檔?
+
+->加上套件(路徑)
+
+package aa.bb;
+class MyTools{...}
+檔名MyTools.java
+編譯: aa
+        bb
+            MyTools.class
+類別名稱: aa.bb.MyTools
+以package來延伸類別的名稱
+
+即使如此還是有機會重複
+
+->package使用反向的domain name
+
+package com.laccnet;
+class MyTools{...}
+變成
+    com
+        lccnet
+            MyTools.class
+
+=================================================================
+cmd 打 javac
+會列出可用參數
+=================================================================
+
+TestJDK.java 在第一行加上 package com.ted;
+執行javac TestJDK.java 後, 還是產生了一個 TestJDK.class
+哪裡出錯了呢?
+
+編譯有套件的Java程式
+    javac -d . java原始程式  <-- . 的意義, 在目前的工作目錄
+
+執行後, 會在原本的目錄建立com\ted\TestJDK.class
+給客戶的時候要把com整個給他
+
+=================================================================
+
+如何使用類別
+
+說明: 有兩種方式可以使用
+    1.直接建立物件
+    2.繼承
+
+例:
+    以 java.awt.Frame為例(一個視窗類別)
+=================================================================
+
+好比說我要刪除 222 這個目錄下的所有目錄和檔案，這語法就是： 
+rmdir /s/q 222 
+其中： 
+/s 是代表刪除所有子目錄跟其中的檔案。 
+/q 是不要它在刪除檔案或目錄時，不再問我 Yes or No 的動作。 
+要刪除的目錄前也可以指定路徑，如： 
+rmdir /s/q d:\123\abc 
+這意思是告訴計算機，把磁碟驅動器 D 的123資料夾裡面的abc資料夾中的所有東西全部刪除，
+同時也不要再問我是否要刪除。
+=================================================================
+
+Practice\First.java
+於cmd ctrl+c 關閉
+
+public class First {
+    public static void main(String[] moira){
+        java.awt.Frame frm=new java.awt.Frame();
+
+        frm.setLocation(300,200);
+        frm.setSize(500,450);
+        frm.setVisible(true);
+    }
+}
+
+java.awt.Frame 太長了, 怎麼辦?
+
+承上例, 簡化含套件路徑的類別
+1. import 套件路徑.類別名稱
+2. import 套件路徑.*
+
+import java.awt.Frame;
+public class Second{
+    public static void main(String[] moira){
+        Frame frm = new Frame();
+
+        frm.setLocation(300,200);
+        frm.setSize(500,450);
+        frm.setVisible(true);
+    }
+}
+=================================================================
+Assignment
+成為Oracle會員
+下載 jdk8 的Documentation 
+
+=================================================================

@@ -1,0 +1,98 @@
+MariaDB [mydb]> show columns from employee;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| num     | char(6)       | YES  |     | NULL    |       |
+| name    | char(8)       | YES  |     | NULL    |       |
+| sex     | enum('F','M') | YES  |     | NULL    |       |
+| birth   | date          | YES  |     | NULL    |       |
+| age     | tinyint(4)    | YES  |     | NULL    |       |
+| address | char(28)      | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+6 rows in set (0.002 sec)
+
+MariaDB [mydb]> describe employee;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| num     | char(6)       | YES  |     | NULL    |       |
+| name    | char(8)       | YES  |     | NULL    |       |
+| sex     | enum('F','M') | YES  |     | NULL    |       |
+| birth   | date          | YES  |     | NULL    |       |
+| age     | tinyint(4)    | YES  |     | NULL    |       |
+| address | char(28)      | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+6 rows in set (0.003 sec)
+
+MariaDB [mydb]> alter table employee
+    -> modify num char(10);
+Query OK, 0 rows affected (0.512 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydb]> describe employee;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| num     | char(10)      | YES  |     | NULL    |       |
+| name    | char(8)       | YES  |     | NULL    |       |
+| sex     | enum('F','M') | YES  |     | NULL    |       |
+| birth   | date          | YES  |     | NULL    |       |
+| age     | tinyint(4)    | YES  |     | NULL    |       |
+| address | char(28)      | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+6 rows in set (0.003 sec)
+
+MariaDB [mydb]> alter table employee
+    -> add memo text;
+Query OK, 0 rows affected (0.032 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydb]> describe employee;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| num     | char(10)      | YES  |     | NULL    |       |
+| name    | char(8)       | YES  |     | NULL    |       |
+| sex     | enum('F','M') | YES  |     | NULL    |       |
+| birth   | date          | YES  |     | NULL    |       |
+| age     | tinyint(4)    | YES  |     | NULL    |       |
+| address | char(28)      | YES  |     | NULL    |       |
+| memo    | text          | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+7 rows in set (0.002 sec)
+
+MariaDB [mydb]> alter table employee
+    -> drop age;
+Query OK, 0 rows affected (0.478 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydb]> describe employee;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| num     | char(10)      | YES  |     | NULL    |       |
+| name    | char(8)       | YES  |     | NULL    |       |
+| sex     | enum('F','M') | YES  |     | NULL    |       |
+| birth   | date          | YES  |     | NULL    |       |
+| address | char(28)      | YES  |     | NULL    |       |
+| memo    | text          | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+6 rows in set (0.002 sec)
+
+MariaDB [mydb]> alter table employee
+    -> change num no char(6);
+Query OK, 0 rows affected (0.512 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydb]> describe employee;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| no      | char(6)       | YES  |     | NULL    |       |
+| name    | char(8)       | YES  |     | NULL    |       |
+| sex     | enum('F','M') | YES  |     | NULL    |       |
+| birth   | date          | YES  |     | NULL    |       |
+| address | char(28)      | YES  |     | NULL    |       |
+| memo    | text          | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+6 rows in set (0.002 sec)

@@ -1,0 +1,566 @@
+package com.公司 (domain name reversed)
+
+class 繼承
+override 否決; 使…無效；優先於
+
+java.awt.Frame (java.awt 為套件路徑)
+java.awt.* 
+
+Java規定要寫說明文件
+public class一定要寫說明文件給人家
+
+javadoc.exe 為建立說明文件的工具
+
+註解
+    //列註解
+    放在列的上面或敘述後面
+
+    /*多列式註解*/
+
+    /**在程式中作為傳統式的註解,
+       當製作documentation時
+       註解的內容會自動加入說明文件*/
+
+---建立說明文件---
+javadoc 原始程式檔名
+    javadoc MyTools.java
+
+Unit 1
+
+可加上, 顯示更多父類別
+import java.awt.Frame;
+
+public class MyTools extends Frame
+
+=======================================
+
+編譯與執行以 utf8 編碼的Java程式
+
+Unit1/case0
+
+javac -encoding utf8 JavaBasic.java
+java JavaBasic
+
+=======================================
+
+無套件路徑時, 編譯主程式, 同時也會編譯副程式
+Unit1/case1
+
+Hello1.java 主程式
+SayHi.java 副程式
+    Hello1.class
+    SayHi.class
+    無套件路徑
+
+操作步驟
+1. 編譯 SayHi.java
+    javac SayHi.java
+2. 編譯 Hello1.java
+    javac Hello1.java
+3. 執行 Hello1
+    java Hello1
+
+因為無套件路徑, 因此操作步驟可以省略步驟1
+編譯主程式時, 會自動編譯同目錄下的副程式
+
+=======================================
+
+加入套件路徑時
+Unit1/case2
+
+Hello2.java
+SayHi.java
+    kuo/Hello2.class
+    com/lccnet/SayHi.class
+
+說明: 叫用者的程式碼可以加上
+    import com.lccnet.*  或
+    import com.lccnet.SayHi
+    來簡化
+
+要先編譯 SayHi, 再編譯Hello2
+若只編譯Hello2會出錯, 找不到SayHi.class
+
+操作步驟
+1. 編譯 SayHi.java
+    javac -d . SayHi.java
+2. 編譯 Hello1.java
+    javac -d . Hello2.java
+3. 執行 Hello2
+    java kuo.Hello2
+
+=======================================
+
+相同套件路徑
+Unit1/case3
+
+Hello3.java
+SayHi.java
+    com.lccnet/Hello3.java
+    com.lccnet/SayHi.java
+
+說明: 因為套件路徑相同, 不需要使用import
+
+操作步驟
+1. 編譯 SayHi.java
+    javac -d . SayHi.java
+2. 編譯 Hello1.java
+    javac -d . Hello3.java
+3. 執行 Hello2
+    java com.lccnet.Hello3
+
+=======================================
+
+比較import不同的用法
+Unit1/case4
+
+Hello4.java
+SayHi.java
+com/lccnet/SayHi.class
+
+比較: 
+    import com.lccnet.*
+    import com.lccnet.SayHi
+
+    * : 同目錄下的SayHi
+    .SayHi : 路徑下的SayHi
+
+操作步驟
+1. 編譯 SayHi.java
+    javac -d . SayHi.java
+2. 編譯 Hello1.java
+    javac -d . Hello3.java
+3. 執行 Hello2
+    java com.lccnet.Hello3
+
+實際執行
+    Hello4.java
+    import com.lccnet.*
+
+    javac Hello4.java (改完程式碼得再編譯一次)
+
+        I'm Hello4!
+
+        Hello everybody!
+        SayHi is running!
+
+    ----------------------------
+
+    Hello4.java
+    import com.lccnet.SayHi
+
+    javac Hello4.java (改完程式碼得再編譯一次)
+
+        I'm Hello4!
+
+        Hello everybody!
+        com.lccnet.SayHi is running!
+
+=======================================
+
+IDE
+
+解壓縮 Eclipse
+我的路徑為 D:\JavaIDE\Eclipse
+
+於Eclipse目錄內新增 Workspace資料夾, 存放專案用
+
+此檔案版本主要為 JavaSE 環境使用, 
+後續JavaEE會用別的版本
+
+=======================================
+
+Eclipse 
+1. Window/Preferences/General..更改字體大小
+2. JDK選擇
+    安裝jdk17 我的路徑 D:\Java
+3. Window/Preferences/Java/Installed JREs
+    Add.. (Standard VM)
+    選擇jdk8 / jdk17 安裝路徑
+
+=======================================
+
+通常 public class 裡面不會有 main
+而是當成工具箱
+main 使用工具箱, 寫主程式
+
+在 Eclipse 寫程式, 一邊寫一邊編譯, 感受不到兩個步驟
+javac / java
+
+=======================================
+
+D:\JavaIDE\Eclipse\Workspace\java01_jdk8\bin\java01_jdk8
+
+package java01_jdk8;
+
+public class MyFirst {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("hell world");
+	}
+
+}
+=======================================
+
+教學範例會放到IDE裡, 不加套件路徑是為了方便存取
+
+Java的基本資料型態
+
+大部分的程式語言都會重視, 記憶體空間的有效利用
+因此劃分多種資料型態
+
+
+1. 整數
+    byte
+        配置 8bit
+        值域 -128 ~ 127
+    short
+        配置 16bit
+        值域 -32768 ~ 32767
+    int
+        配置 32bit
+        值域 -+21億
+    long
+        配置 64bit
+        值域 略
+    
+    指定內容可以使用
+    十進位
+    二進位
+    八進位
+    十六進位
+
+    舉例
+        byte xyz = 123; 十進位
+        byte xyz = 0b01111011; 二進位
+        byte xyz = 0173; 八進位
+        byte xyz = 0x7b; 十六進位
+
+        以值為考量: 使用十進位
+        以狀態考量: 使用二進位
+        八進位與十六進位是二進位的另類表示方式
+
+        8bit S: 1負 / 0正
+        S 64 32 16 8 4 2 1
+        0     1      1 1
+        十進位38 轉二進位?
+        00100110 
+
+        8bit 十六進位(二進位以十六進位表, 轉成十進位值)
+        8 4 2 1
+        1 0 0 1 : 9
+        1 0 1 0 : A
+        1 0 1 1 : B
+        1 1 0 0 : C
+        1 1 0 1 : D
+        1 1 1 0 : E
+        1 1 1 1 : F
+
+2. 浮點數
+    float
+        配置32bit
+          1    8      23
+        正負/指數/小數(假數)
+        小數有效位數 7 位
+    double
+        配置64bit
+          1   11      52
+        正負/指數/小數(假數)
+        小數有效位數 15~16 位
+    
+    指定浮點數給float時, 數值末端要加f / F
+        float abc = 1.23f
+
+E:\project\meetjobs\JAVA\PDF\跳脫字元_ASCII.pdf
+3. 字元
+    char
+        配置16bit
+        採用16bit的unicode
+            支援跳脫字元
+
+        字元數常以單引號標示
+            char gender='M';
+        字串則常以雙引號標示
+
+        'A'   0100001   65
+        字元常數       字元碼
+        'A'~'Z' : 65 ~ 90
+        'a'~'z' : 97 ~ 122
+        '0'~'9' : 48 ~ 57
+
+        指定字元內容時, 可以使用
+        跳脫字元 或
+        字元碼
+            char p = 'A';
+            char p = 65;
+            char p = '\u0041'; (十六進位)
+            char p = '\101'; (八進位)
+
+4. 布林
+    boolean
+        配置1bit
+        以true/false來指定內容
+        不允許以其他資料型態來取代
+
+=======================================
+
+Unit3 內容移到 Eclipse Workspace
+
+long x = 22551611111L;
+long x = 11;
+
+L可加可不加?
+L的意義: 加大緩衝區
+
+    byte x=123;
+    1.預設會先把123放到buffer區(預設32bit)
+    2.預設會先配給x空的8bit空間
+    3.然後再把123放到8bit裡
+
+    byte y = 128;
+    上述步驟3出錯, 128放不進8bit空間
+
+    long e = 2200000000;
+    1.預設先把這個數字放進buffer區(32bit)
+    2.放不進去, 在數值後加上L, 加大buffer區
+
+float x = 22;
+22 放入緩衝區 (int 32bit)
+
+float x = 2.2;
+2.2放入緩衝區(double 64bit)
+    double 是64bit
+    float 是32bit
+    放不進去
+
+float x = 2.2F;
+
+F的意義: 將緩衝區縮小(double => float / 64bit => 32bit)
+
+=======================================
+
+陣列
+    一維陣列
+
+一個變數只能配置一快記憶體
+一個陣列可以要求配置多塊連續而且型態相同的記憶體
+連續/型態相同  有人不喜歡這些feature
+
+1.宣告陣列
+    1. 資料型態[] 陣列名稱   java希望這樣寫
+        String[] args
+    2. 資料型態 陣列名稱 []   C/C++的寫法
+        String args []
+
+2.建立陣列
+    陣列名稱=new 資料型態 [大小]
+    stack 陣列名稱
+    heap 索引 然後把名稱連結
+
+可宣告陣列的同時建立陣列, 
+陣列建立完成後系統會自動初始化
+    byte[] score;
+    score = new byte[5];
+
+    byte[] score = new byte[5];
+
+    每個儲存空間稱為元素(element)
+    元素以索引管理, 從0起算
+
+初始化的原則
+整數 : 0
+浮點數 : 0.1
+布林 : false
+字元 : \u0000 (空字元)
+
+3.指定內容
+    陣列名稱[索引]=值;
+        score[0]=85;
+        score[1]=80;
+        score[2]=70;
+        score[3]=95;
+        score[4]=90;
+
+宣告陣列, 建立陣列, 指定內容
+	byte[] score = new byte[]{
+			80,90,70,50
+	};
+
+compiler sugar
+編輯器做多事
+
+4.屬性
+    名稱是length
+    存放陣列的大小
+    是唯讀的屬性
+
+=======================================
+
+public static void main(String[] args){}
+
+String?
+
+自串類別(String)
+套件路徑 java.lang
+    因為每個程式都要使用, 重要到不需要import
+    compiler 自動導入
+    程式碼中無須 import
+
+1.建立物件
+    1. String 物件名稱="字串常數"
+    2. String 物件名稱=new String("字串常數")
+    3. String 物件名稱=new String(char[])
+    4. String 物件名稱=new String(byte[])
+
+2.成員方法
+    1. length() : 取得字串長度
+    2. charAt(索引) : 取得索引所對應的字元
+    3. equals(字串物件) : 比較字串的內容是否相同
+    4. toCharArray(): 將字串拆解成字元陣列
+    5. getBytes(): 將字串拆解成為byte陣列
+=======================================
+
+標準輸出
+    System.out.print(資料) : 輸出不換列
+    System.out.println(資料) : 輸出後換列
+    System.out.printf("格式字串", 資料) : 格式化輸出, 輸出後不換列
+    
+    System.out 是指螢幕緩衝區, 另一種寫法為
+    System.err 秀錯誤訊息用這個, 但現在很少用這個了?
+
+
+%d 整數
+%5d 整數 固定五字元, 不足則補空格在前面
+%o 八進位
+%x 十六進位 小寫
+%X 十六進位 大寫
+
+%f 小數
+%8.2f 固定八字元, 指數五位, 小數二字元(小數點佔一位)
+
+%c 字元, 小寫就小寫, 大寫就大寫
+%C 一律換成大寫
+%2c 固定二字元
+
+%s 字串, 小寫就小寫, 大寫就大寫
+%S 一律換成大寫
+%10s 固定十字元
+
+%b 布林 true / false
+%B 布林 大寫 TRUE / FALSE
+%10B%n
+%-10s%n  -的意義 補的空格加在右邊
+
+=======================================
+
+if 敘述
+1.單向if
+
+判斷式 -> true -> 主體 ->
+      -> false        ->
+
+語法
+    if(判斷式){
+        主體
+    }
+
+    主體內只有一個敘述時, 大括弧可以省略
+    判斷式的結果必須是布林值
+
+2.雙向if
+
+判斷式 -> true -> 主體A  ->
+       -> false -> 主體B ->
+
+語法
+    if(判斷式){
+        主體A
+    }
+    else{
+        主體B
+    }
+
+特定的雙向if可用三元運算式表示
+    if(a>b)
+        max=a;
+    else
+        max=b;
+
+    可以寫成
+
+    max=a>b?a:b
+    ??? 沒括號看不懂欸, 原始語法不需要加括號
+    max=(a>b)?a:b
+    true 則a
+    else 則b
+
+
+package Unit4;
+
+public class U410_IfElse 
+{
+    
+    public static void main(String[] args) 
+    {
+        int score = 55;
+        
+        if( score >= 60 )
+           System.out.println("及格");
+        else
+           System.out.println("不及格");
+           
+        String result= (score>=60) ? "及格" : "不及格";
+        System.out.println(result);
+    }
+}
+
+Unit5/U506
+3.鏈狀if
+
+判斷式1 -> A -> ...
+       -> 判斷式2 -> B -> ...
+                  -> 判斷式3 -> C -> ...
+                            -> ....
+
+語法
+    if(判斷式1){
+        主體A
+    }
+    else if(判斷式2){
+        主體B
+    }
+    else if(判斷式3){
+        主體C
+    }
+    ...
+
+4.巢狀if
+
+判斷式1 -> true ->      判斷式2 -> true  ->     判斷式3 -> true -> 主體A  ->
+          false -> 主體D          false -> 主體C          false -> 主體B ->
+
+語法
+    if(判斷式1){
+        if(判斷式2){
+            if(判斷式3){
+                主體A
+            }
+            else{
+                主體B
+            }
+        }
+        else{
+            主體C
+        }
+    }
+    else{
+        主體D
+    }
+
+閏年的條件
+1.可被4整除, 但不能被100整除
+    2012, 2016, 2018,
+2.可被4,100,400同時整除
+    1600,2000,2400
+=======================================

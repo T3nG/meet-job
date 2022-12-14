@@ -1,0 +1,119 @@
+create table myfriend
+(
+    no     char(4)     not null,
+	name   varchar(10),
+	age    tinyint     not null default 20,
+	primary key (no)
+);
+
+
+MariaDB [abc]> show tables;
++---------------+
+| Tables_in_abc |
++---------------+
+| myfriend      |
++---------------+
+1 row in set (0.000 sec)
+
+MariaDB [abc]> insert into myfriend(no,name,age)
+    -> values("00001","gigi",30);
+ERROR 1406 (22001): Data too long for column 'no' at row 1
+
+MariaDB [abc]> insert into myfriend(no,name,age)
+    -> values("0001","gigi",30);
+Query OK, 1 row affected (0.019 sec)
+
+MariaDB [abc]> select * from myfriend;
++------+------+-----+
+| no   | name | age |
++------+------+-----+
+| 0001 | gigi |  30 |
++------+------+-----+
+1 row in set (0.000 sec)
+
+MariaDB [abc]> insert into myfriend
+    -> values("0002","lily",40);
+Query OK, 1 row affected (0.024 sec)
+
+MariaDB [abc]> select * from myfriend;
++------+------+-----+
+| no   | name | age |
++------+------+-----+
+| 0001 | gigi |  30 |
+| 0002 | lily |  40 |
++------+------+-----+
+2 rows in set (0.000 sec)
+
+MariaDB [abc]> insert into myfriend(no)
+    -> values("0003");
+Query OK, 1 row affected (0.035 sec)
+
+MariaDB [abc]> select * from myfriend;
++------+------+-----+
+| no   | name | age |
++------+------+-----+
+| 0001 | gigi |  30 |
+| 0002 | lily |  40 |
+| 0003 | NULL |  20 |
++------+------+-----+
+3 rows in set (0.000 sec)
+
+MariaDB [abc]> insert into myfriend(name,age)
+    -> values("lulu",38);
+ERROR 1364 (HY000): Field 'no' doesn't have a default value
+
+MariaDB [abc]> insert into myfriend(no,name,age)
+    -> values("0004","lulu",38);
+Query OK, 1 row affected (0.024 sec)
+
+MariaDB [abc]> select * from myfriend;
++------+------+-----+
+| no   | name | age |
++------+------+-----+
+| 0001 | gigi |  30 |
+| 0002 | lily |  40 |
+| 0003 | NULL |  20 |
+| 0004 | lulu |  38 |
++------+------+-----+
+4 rows in set (0.000 sec)
+
+MariaDB [abc]> insert into myfriend(no,name,age)
+    -> values("0002","nana",45);
+ERROR 1062 (23000): Duplicate entry '0002' for key 'PRIMARY'
+
+MariaDB [abc]> insert into myfriend(no,name,age)
+    -> values("0005","nana",45);
+Query OK, 1 row affected (0.033 sec)
+
+MariaDB [abc]> select * from myfriend;
++------+------+-----+
+| no   | name | age |
++------+------+-----+
+| 0001 | gigi |  30 |
+| 0002 | lily |  40 |
+| 0003 | NULL |  20 |
+| 0004 | lulu |  38 |
+| 0005 | nana |  45 |
++------+------+-----+
+5 rows in set (0.000 sec)
+
+#更新資料
+MariaDB [abc]> update myfriend
+    -> set name="diana"
+    -> where no="0003";
+Query OK, 1 row affected (0.046 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [abc]> select * from myfriend;
++------+-------+-----+
+| no   | name  | age |
++------+-------+-----+
+| 0001 | gigi  |  30 |
+| 0002 | lily  |  40 |
+| 0003 | diana |  20 |
+| 0004 | lulu  |  38 |
+| 0005 | nana  |  45 |
++------+-------+-----+
+5 rows in set (0.001 sec)
+
+MariaDB [abc]>

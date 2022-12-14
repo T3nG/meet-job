@@ -1,0 +1,347 @@
+可以嘗試考取ITS證照(國際證照)
+
+abstract class?
+abstract method?
+private?
+
+==========
+
+上次的作業
+氣泡排序檢查是否已排序
+
+boolean ok=true
+在swap發生處加上 ok=false;
+
+if(ok==true) break;
+
+==========
+物件導向
+
+[public] class 自訂名稱 [extends 基礎類別]{
+    成員
+}
+
+說明: 
+1. public 表示完全對外開放, 未指定時表示只對相同套件開放
+2. 一個檔案中只能有一個public class, 且必須以該class名稱作為主檔名
+3. extends: 繼承類別
+4. 未指定extend時, 在compile過程中會被加入extends Object
+5. Object 類別為所有類別的最上層
+6. 畫類別繼承圖時, 箭頭指向上層類別
+7. 成員可以分為三大類
+    a.屬性(field)
+    b.方法/成員方法(method)
+    c.建構式(constructor)
+8. 物件
+    a.參考(指標)
+    b.實體
+
+====================
+
+宣告屬性
+
+語法:
+[access][qualifiers] 資料型態 屬性名稱 [初值]
+
+說明:
+    access 指定對外開放的等級(存取權限)
+        public    完全對外開放
+        protected
+            a.相同套件, 完全開放
+            b.不同套件, 僅對子類別開放
+        無keyword 為預設的等級
+            同protected a.
+        private   表面上是不對外開放
+            實質上採間接對外開放, 換言之
+            提供對外的存取成員方法, 
+            來存取屬性
+            (最常用)
+    
+    Qualifiers 特性與配置的位置(heap/static)
+        final 屬性為常數
+        static 配置在static記憶區內
+            final 與 static 可以合併使用
+            指定為 final 時, 也必須是 static
+                class Test{
+                    final double PIA=3.14159;
+                    final static double PIB=3.14159;
+                }
+                => Test.class
+
+                => 載入Test.class
+                => stack     heap     static
+                   oo--------PIA      PIB
+                   pp--------PIA
+
+                => 叫用 Test.PIB
+
+                => 建立物件
+                    Test oo = new Test();
+                    Test pp = new Test();
+
+                => 在 heap   為個別使用的參數
+                => 在 static 為共用的參數
+                => ? 所以 final static
+
+    資料型態: 任何的Java資料型態都可以用來宣告屬性
+    屬性名稱: 命名方式
+            一般屬性, 小駝峰的命名方式
+                ageOfStudent
+            常數, 大寫與底線來命名
+                COUNT / MAX_SIZE
+
+定義方法
+
+語法:
+[access][qualifiers] 回傳值型態 方法名稱(參數群){
+    主體
+}
+
+說明:
+    access 同屬性的說明
+    qualifiers
+        final  不允許被 override
+        static 共用的成員方法
+            又稱為類別方法
+    回傳值型態: Java的資料型態都可以是回傳值型態
+        若無回傳值, 則回傳值型態以 void 來表示
+    方法名稱: 命名方式同屬性
+    參數群: 宣告方式同區域變數
+
+        成員方法的參數個數不固定?(jdk5.0以後支援)
+
+        int sum2(int a, int b){
+            return a+b;
+        }
+
+        int sum3(int a, int b, int c){
+            return a+b+c;
+        }
+        ...
+        what gives?
+
+        => 參數不固定的寫法
+        
+        nums => 老師管它叫群組參數
+            參數中只能有一個群組參數, 且必須放在最後面
+        int...nums 等同 int[]nums 陣列
+
+        int sum(int...nums){
+            int total=0;
+            for(int num : nums){
+                total+=num;
+            }
+            return total;
+        }
+================================
+
+Overload
+Override
+
+Override 與 Overload 發生在成員方法:
+    Override
+        1.在繼承時產生
+        2.在繼承過程中改寫基礎類別(父類別)的成員方法
+            並非取代, 而是並存
+        3.成立的條件: 三項都須滿足
+            protected int getData(int x, double y){..}
+            a.存取的權限
+                維持原權限 
+                    protected int getData(...)...
+                或提升權限
+                    public int getData(...)...
+                    public > protected > default > private
+            b.回傳值型態: 維持原型態
+            c.參數個數及其資料型態: 與原方法相同
+                參數名可改變
+        4.理論上會override非static方法, 但static是會被override影響的
+
+                
+    Overload
+        1.在定義類別時產生
+        2.允許在同一個類別中定義多個同名稱的成員方法
+        3.成立的條件: 只要一項成立就可以
+            getData()
+            getData(int a)
+            getData(double b)
+            getData(int a, double b)
+            getData(double b, int a)
+            a.參數個數不同
+            b.參數的型態不同
+            c.參數的型態次序不同
+
+=================================
+
+建構式/建構子 Constructor
+    1.與類別同名的成員方法
+        class Test{
+            public Test(){
+                ...
+            }
+        }
+    2.四個存取權限都可以使用
+        public, protected, default, private
+    3.沒有回傳值, 且不需要加上void
+    4.可以支援overload
+        同一類別內可以有多個建構式
+    5.建構式間可以相互叫用
+        語法:
+        this([參數群])
+        被叫用的建構式通常是private的
+    6.未定義建構式的類別, 
+      在編譯過程中系統會自動加入一個無參數的空建構
+      => default constructor
+        
+        class Test{
+            ...
+        }
+
+        =>
+
+        class Test{
+            public Test(){
+                ...     /|\
+            }            |
+        }                |
+                         |
+        一般建立物件的方法  |
+        Test obj = new Test();
+    7.叫用其他建構時, 叫用的有效敘述必須是在第一列
+        註解在第一列, 可以呀
+=============================
+
+this (python 的self)
+    1.物件的參數
+    2.每個物件實體都會有
+    3.可用來存取物件的成員
+        stack       heap
+                    -------
+        this--------|建立中|
+        obj---------|建完成|
+                    -------
+        
+            Test obj = new Test();
+
+            new Test().show();
+            建立一個無參考的實體
+
+class pointer{
+    int x,y;
+    public pointer(int a, int b){
+        x=a;
+        y=b;
+    }
+}
+
+    說明:
+    藉由建構式來指定屬性x,y的初值
+
+class pointer{
+    int x,y;
+    public pointer(int x, int y){
+        x=x;
+        y=y;
+    }
+}
+
+    問:
+    是否可以達成上式的效果?
+
+    答:
+    否
+    x=x; 兩邊的 x 都會被視為 int x 的 x
+    同理y
+
+class pointer{
+    public pointer(int x, int y){
+        this.x=x; //屬性x=參數x
+        this.y=y; //屬性y=參數y
+    }
+}
+=======================
+
+繼承 inheritance
+
+Java的繼承分兩階段
+    第一階段: 類別之間的繼承
+        單一繼承
+        public class MyFrame extends Frame
+            程式的主軸是 Frame (視窗程式)
+
+    第二階段: 加入介面後的繼承
+        多重繼承
+        public class MyFrame extends Frame
+        implements ActionListen, mouseListen
+            但還有其他的附屬功能 (介面)
+
+語法:
+[public] class 自訂名稱 extends 基礎類別 [implements 介面...]{
+    1.加入新的成員/功能
+    2.執行override, 改寫基礎類別中的方法
+
+說明:
+    1.自訂名稱是新類別名稱(正式名稱: 延伸類別/衍伸類別), 最常稱被為 子類別
+    2.在此的基礎類別又被稱為 父類別
+    3.老師認為, 在巢狀類別中才能撐父類別/子類別, 因此不是很滿意大家在這裡的稱法
+    4.繼承是繼承 class檔, 而不是Java原始檔
+    5.繼承之後不會因此消滅基礎類別
+        在Java中採用的是完整/完全的繼承
+    6.叫用基礎類別的成員
+        super.成員
+    7.叫用基礎類別的建構
+        super([參數群]) 
+        必須是在叫用者建構式的第一列有效敘述
+    8.  this / super 的差異
+
+    
+
+}
+
+======================
+
+abstract class 在團隊運作中非常重要
+
+語法:
+[public] abstract class 自訂名稱[extends 基礎類別]{
+    成員
+}
+
+說明:
+    1.類別的成員可以是
+        a.一般類別的成員
+        b.成員中有 abstract method (抽象方法)
+    2.特性是只提供 繼承
+        繼承的同時, 必須對成員中的抽象方法進行override
+    3.成員中有抽象方法時, 類別就必須是抽象類別
+
+
+abstract method
+
+語法:
+[access] abstract 回傳值型態 方法名稱([參數群]);
+
+說明:
+    1.只有方法的定義/宣告, 而無主體內容
+    2.要求繼承者對其進行override
+=======================
+
+介面 interface
+
+語法:
+[public] interface 介面名稱 [extends 父介面1, 父介面2...]{
+    成員
+}
+
+說明:
+1.interface本身支援多重繼承
+2.成員只有
+    a.屬性
+        是常數(可省略 static / final)
+    b.成員方法
+        是抽象方法(可省略 abstract)
+            只有方法的定義, 沒有本體
+            public abstract int getdata();
+            繼承者必須 override 此方法
+    c.繼承 interface 必須使用 implements
+
+    ...to be continued

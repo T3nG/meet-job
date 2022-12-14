@@ -1,0 +1,515 @@
+假設最大值為a 全部使用單向if
+
+int max;
+max=a;
+if(b>a) max=b;
+if(c>a) max=c;
+System.out.println("最大值:"+max);
+============================================================
+
+++運算符號
+
+說明:
+1.對指定的變數內容 加1
+2.前置 ++x
+  後置 x++
+  對變數本身而言並無差異, 但對整個運算式的結果會有不同
+    int x=5;
+    System.out.println(++x*5);  => 30 加1後才乘
+    System.out.println(x);      => 6
+
+    int y=5;
+    System.out.println(y++*5);  => 25 先乘後加1
+    System.out.println(y);      => 6
+
+
+%運算符號
+
+說明: 計算除法的餘數
+    13%5=3
+
+
+例題:
+    int x=0
+    System.out.println(x++ + x++ + x++ + x++ + x++);  0+1+2+3+4
+    System.out.println(x);  => 5
+
+算術運算式的最終型態: 有兩個依據
+    1.promotion 程式語言內內定的方式
+        byte->short->int->long->float->double 跟下層做運算, 資料型態會變為下層
+        Char->int
+    2.casting 使用者自訂
+        目的型態 運算式 (強制轉型)
+        Char 變數 = char System.in.read()
+
+    17/2=8 整數除以整數=整數
+    17.0/2 = 8.5
+    17/2.0 = 8.5
+    double 17/2 = 8.5
+    double (17/2) = 8.0
+
+===============================
+
+conditional operators 條件運算
+! not
+&& and
+|| or
+
+也是優先順序
+! 和 + - 正負符號一樣
+() -> 指數 -> !/+/- -> && / ||
+
+and / or 的 short circuit (短路??)
+
+    真值表
+        AND 且
+    A   B   A且B
+    T   T   T
+    T   F   F
+    F   T   F
+    F   F   F
+    當左側運算結果為F, 直接省略右側運算
+
+        OR 或
+    A   B   A或B
+    T   T   T
+    T   F   T
+    F   T   T
+    F   F   F
+    當左側運算結果為T, 直接省略右側運算
+
+    一邊成立時, 另一邊的程式碼就不跑了
+        int x=6;
+        boolean b;
+        
+        b = x++ > 5 | ++x > 6;
+        
+        System.out.println("|運算後x的值: " + x);  => 7
+        System.out.println(b); => true
+
+        可採用位元運算條件(Bitwise Operators)
+        ~ not
+        & and
+        | or
+        ^ XOR
+            讓shortcircuit不成立, 兩邊都會跑
+    
+    Python 沒有shortcircuit
+
+========================================
+
+指定運算 Assignment Operators
+
+=       簡單指定
++=      相加指定
+-=      相減指定
+*=      相乘指定
+/=      相除指定
+%=      餘數指定
+&=      AND指定
+|=      OR指定
+^=      XOR指定
+<<=     位元左移指定
+>>=     位元左移指定
+>>>=    位元左移指定
+
+x=x+2
+    => x+=2
+
+讓compiler的運算速度更快
+========================================
+
+物件之間的比較 Uint6
+
+==          參考相同實體
+equals()    內容是否相同
+compareTo() 內容的大小
+    
+    ==
+    比較是否為相同實體
+    PP -> 實體A
+    OO -> 實體A
+    PP==OO => true
+
+    equals()
+    比較實體內容是否相同
+    每個物件都提供此方法
+        Integer OA = new Integer(123);
+        Integer OB = new Integer(123);
+        OA -> 實體A
+        OB -> 實體B
+            OA==OB => false
+            OA.equals(OB) => true
+            反之亦然
+    
+    compareTo()
+    比較實體內容的大小
+    不同實體(物件)表達方式不同
+        回傳值, 前面大為正
+        byte, short              回傳數值的差值
+        int, long, float, double 回傳1,0,-1
+        char                     回傳unicode的差值
+        boolean                  回傳1,0,-1
+        string                   回傳首位相異字元的unicode差值
+            String str1=new String("ABCDE");
+            String str2=new String("ABCDEFG");
+            System.out.println(str1.compareTo(strt)); => -2
+            首位相異字元差值, 若沒有則查詢字串長度, 回傳值為字串長度差值
+    
+
+    例
+    String str1 = "ABCD";
+    String str2 = "ABCD";
+    System.out.println(srt1.equals(str2)); => true
+    System.out.println(str1==str2);        => true
+
+    ---------    --------------
+    |       |    |   |----|   |-> string pool字串池
+    |       |    |   |ABCD|   |
+    | str2  |    |   |----|   |
+    | str1  |    |            |
+    ---------    --------------
+      stack           heap
+
+    str1 str2都對應到同一個字串池
+
+
+    例
+    String str3 = new String("ABCD");
+    String str4 = new String("ABCD");
+    System.out.println(str3.equals(str4)); => true
+    System.out.println(str3==str4);        => false
+
+    ---------    -------------------
+    |       |    |        |----|   |-> string pool字串池
+    |       |    |        |ABCD|   |
+    | str2  |    | ABCD   |----|   |
+    | str1  |    | ABCD            |
+    ---------    -------------------
+      stack             heap
+    
+    產生新字串時, 會先丟到字串池內
+    由字串池產生新的空間分別對應到str3, str4    (new 的意義)
+
+Unit6 Obeject_Compare4
+    運算符號 instanceof
+    檢查類別與物件是否有關係
+        物件 instanceof 類別
+
+class A {}
+
+class B extends A {}  //B 繼承 A
+
+public class Object_Compare4
+{
+	public static void main(String[] args)	
+	{
+        A obj1=new A();
+        System.out.println(obj1 instanceof B);
+         
+                  
+        A obj2=new B();
+        System.out.println(obj2 instanceof A); 
+        System.out.println(obj2 instanceof B); 
+    }
+}
+
+用數學類別來彌補運算符號的不足
+Math 類別 - 套件路徑 java.lang
+所有成員皆為static成員
+    叫用時只接使用類別名字  Math a= new Math(); 會被判定為錯誤
+        Math.sin()
+        Math.pi
+
+double sin(double 徑度)              正弦
+double cos(double 徑度)              餘弦
+double tan(double 徑度)              正切
+double toRadians(double 角度)        將角度轉換成徑度
+double toDegrees(double 徑度)        將徑度轉換成角度
+double exp(double 數值)              計算e的n次方
+double log(double 數值)              計算e為底的對數值
+double pow(double X, double Y)       計算X的Y次方值
+double sqrt(double 數值)             計算數值的平方根 (很少用, 一般都用1/2次方表示)
+
+int/long/float/double 
+abs(資料型態 數值)                    取絕對值
+min(資料型態 數值1,資料型態 數值2)     取數值1/數值2的最小值
+max(資料型態 數值1,資料型態 數值2)     取數值1/數值2的最大值
+    在同類別裡面, 允許存在若干個同名的成員方法 overload
+    老師覺得java裡最爛的兩個方法 min, max, java卻一直沒有改善
+
+double ceil(double 數值)             取得大於或等於數值的整數
+double floor(double 數值)            取得小於或等於數值的整數
+double rint(double 數值)             以四捨六入取得最接近的整數
+
+int round(float 數值)                以四捨五入取得最接近的整數
+long round(double 數值)
+
+double random()                      取得 >=0.0 且 <1.0 之間的亂數
+
+public static final double E         尤拉數 2.718281828459045
+public static final double PI        圓周率 3.141592653589793
+
+
+================
+min, max 爛在哪?
+
+A call B
+
+在系統的stack, 在call B之前要先丟入A目前的address, 以及準備要傳給B的參數  push進來 要給B的參數
+主控權交給B
+讀取參數                                                              pop出去 要給B的參數
+執行
+stack 區放入B的回傳值                                                  push進來 B的回傳值
+主控權交給A
+pop出來 B的回傳值 A目前的參數
+
+叫用函數是花時間的, 前面已經叫用過的函數, 避免後面又叫用(若無實質差異的話)
+
+為何不用if判斷式做就好呢? 而要叫用函數
+而且目前趨勢為一次傳入多個參數, min max 卻依然只能判斷兩個數值
+================
+
+ceil()
+    取得大於或等於參數值的整數值
+    回傳值型態為double
+        Math.ceil(123.4)  =>  124.0
+        Math.ceil(123.6)  =>  124.0
+        Math.ceil(-123.4)  =>  -123.0
+        Math.ceil(-123.6)  =>  -123.0
+        回傳值>=參數值
+
+floor()
+    取得小於或等於參數值的整數值
+    回傳值型態為double
+        Math.floor(123.8)  =>  123.0
+        Math.floor(-123.4)  =>  -124.0
+        回傳值<=參數值
+
+round()
+    四捨五入取得整數 => 正值四捨五入, 負值五捨六入
+    參數值是float : 回傳值int
+    參數值是double: 回傳值long
+        Math.round(123.4)  =>  123
+        Math.round(123.5)  =>  124    ->?!
+        Math.round(123.6)  =>  124
+        Math.round(-123.4)  =>  -123
+        Math.round(-123.5)  =>  -123  ->?!
+        Math.round(-123.6)  =>  -124
+
+            四捨五入是不公平的
+            01234  56789
+
+            四捨六入
+            1234  6789  5單獨出來判斷
+
+    例:
+    int x = Math.round(123.4);   123.4 為double
+
+    修正:
+    1) long x = Math.round(123.4);
+    2) int x = (int) Math.round(123.4);
+    3) int x = Math.round(123.4f);
+
+rint()
+    四捨六入至整數
+    回傳值型態為double
+    小數第一位是5時
+        個位數是奇數: 進位
+        個位數是偶數: 捨去
+            Math.rint(123.4)  =>  123.0
+            Math.rint(123.5)  =>  124.0
+            Math.rint(124.5)  =>  124.0
+            Math.rint(123.6)  =>  124.0
+            Math.rint(-123.4)  =>  -123.0
+            Math.rint(-123.5)  =>  -124.0
+            Math.rint(-124.5)  =>  -124.0
+            Math.rint(-123.6)  =>  -124.0
+
+random()
+    產生介於0-1之間的double亂數, 範圍 0.0 <= x <1.0
+    
+    例: 產生1~6的整數亂數
+    0.0 <= Math.random() < 1.0
+    0.0 <= Math.random() < 6.0     // x6
+    0 <= (int)(Math.random()) < 6  // 轉型int
+    1 <= (int)(Math.random()) < 7  // +1  <7 等同 <=6
+
+    公式:
+    產生 1~n 的整數亂數
+    (int)(Math.random()*n)+1
+    或
+    (int)(Math.random()*n+1)
+
+Random 類別
+    套件路徑在 java.util
+    建立物件
+        Random 物件 = new Random();
+    成員方法(介紹一種)
+        nextInt(n) : 產生 0 ~ n-1 的整數亂數
+        物件.nextInt(6)+1 : 產生 1~6 的整數亂數
+
+類別方法 vs 物件方法
+    類別方法, 載入時就存放至記憶體
+    物件方法必須先產生物件才能叫用
+
+class MyTools
+{
+	static void showData()
+    {
+		System.out.println("我是static method.");
+		System.out.println("叫用我: Class名稱.showData()");
+	}
+	
+	void show()
+	{
+        System.out.println("我是non-static method.");
+        System.out.println("叫用我: Object名稱.showData()");
+	}   
+}
+
+public class Method_Compare
+{   
+   public static void main(String[] args)
+   {
+	   System.out.println("叫用類別方法 -");
+	   MyTools.showData();
+	   
+	   System.out.println("\n");
+	   System.out.println("叫用物件方法 -");
+	   MyTools obj=new MyTools();
+	   obj.show();
+   }
+}
+
+============================
+
+Switch 語法
+    switch(運算式){
+        case 常數1:
+            主體1
+        case 常數2:
+            主體2
+        ...
+        defaut:
+            主體n
+    }
+
+說明
+1. 運算式的結果只能是 int(byte,short), char, String
+2. case, default 都是 入口
+3. 從指定的入口進入後, 會執行完整個switch的敘述群
+4. 運算式的結果, 對應不到常數值, 就會以default為入口
+5. 將switch改成單選的作法, 在每個主體的最末加上 break;
+6. default 可以不使用, 也可以置於任何case之前
+7. 不同的case可以合併
+    case1:
+    case2:
+    case3:
+        主體
+        break;
+    case4:
+        ...
+
+    亦可寫成橫式
+    case1:case2:case3:
+
+在java裡 "" 為字串 ''為字元
+
+==========================
+
+Java 14 提供新語法
+1. 所有case為單選, 不使用break
+2. case 提供多值
+3. 支援Lambda 將 : 變更為 ->
+4. 可以併入運算式中
+5. 以 yield 回傳 值
+===========================
+
+Java 提供了 4 種迴圈
+    while
+    do while
+    for
+    enhance for
+
+選擇迴圈的方式
+    1. 迴圈數
+        a.可數   - for
+        b.不可數 - while, do while, enhance for
+    2. 迴圈的邏輯
+        a.先執行後判斷 - do while
+        b.先判斷後執行 - while, for, enhance for
+    
+while 語法
+    while(判斷式){
+        主體
+    }
+    
+    判斷式的結果必須是boolean (true/false)
+    主體內只有一個敘述式時, {} 可以省略
+
+    例: 計算 1+2+3+4+5
+    
+    總和 -> 0  被加數 -> 1
+            0     +     1 = 1
+            1     +     2 = 3
+            3     +     3 = 6
+            ...
+    
+    total = total + x
+
+    int total = 0, x = 1;
+    while(x <= 5 ){
+        total = total + x
+        x = x + 1
+    }
+    System.out.println("總和為" + total)
+
+do while 語法
+    do {
+        主體
+    } while(判斷式);
+
+    例: 計算 1+2+3+4+5
+
+        int total=0, x=1;
+        do{
+            total += x;
+            x++;
+        } while(x<=5);
+
+for 語法
+    for(變數=初值;判斷式;增減值){
+        主體
+    }
+
+    說明:
+    1.變數的全名為: 迴圈控制變數
+    2.變數可以直接宣告在迴圈內
+        int x;             <= 變數生
+        for (x=1; ...){
+            ...
+        }                  
+                           <= 變數死
+                           變數生命週期
+                             迴圈結束後, 變數要繼續用
+
+        for(int x=1; ...){  <= 變數生
+            ...
+        }                   <= 變數死, 迴圈結束, 變數立即收回
+    3.三個項目都可以省略, 但是 ; 不可以省略
+    4.增減值支援 指定運算, ++/--運算
+    5.實務上很少見的寫法如下
+        可以有多個迴圈控制變數
+
+    例: 計算 1+2+3+4+5
+
+    int total=0;
+    for(int x=1;x<=5;x++){
+        total += x;
+    }
+
+    
+Assignment
+Unit 4 Lab
+Unit 7 Lab

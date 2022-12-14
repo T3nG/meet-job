@@ -1,0 +1,286 @@
+    Character Stream
+
+    資料流 Data Stream
+
+        1. FileWriter     ->       Disk       ->         FileReader
+                |
+                |
+               \|/
+           Buffer -> Disk
+        
+            write(), flush(), close()
+            read(), close()            
+
+        2. BufferedWriter   ->   FileWriter   ->   Disk   ->   FileReader   ->   BufferedReader
+
+            newLine() 換列, readLine() 讀列
+
+            BufferedReader 物件 = new BufferedReader(new FileReader(File物件 或 "路徑與檔名"))    input File物件
+            BufferedWriter 物件 = new BufferedWriter(new FileWriter(File物件 或 "路徑與檔名"))    output File物件
+            BufferedWriter 物件 = new BufferedWriter(new FileWriter(File物件 或 "路徑與檔名", true))    append File物件
+    
+        3. PrintWriter   ->  FileWriter   ->   Disk   
+
+            print(), println(), printf()
+
+        4. BufferedWriter   ->   OutputStreamWriter   ->   System.out/err  (螢幕緩衝區)
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        5. BufferedReader   ->   InputStreamReader   ->   System.in  (鍵盤緩衝區)
+        BufferedReader keyin = new BufferedReader(new InputStreamReader(System.in));
+    ================
+
+    Byte Stream
+
+    FileOutputStream   ->   Disk  ->   FileInputStream
+        write(), flush(), close()
+        read(), close(), availabe() 取得檔案的大小
+
+    BufferedOutputStream -> FileOutputStream -> Disk -> FileInputStream -> BufferedInputStream
+
+    ================
+    file           String
+
+    AAA\r\n   ->   "AAA"
+    BBB\r\n   ->   "BBB"
+    CCC\r\n   ->   "CCC"
+    \r\n      ->   ""   (空字串)
+    EOF       ->   null (空的)
+
+            while((str = input.readLine())!= null){
+                System.out.println(str);
+            }
+    ================
+
+    String myStr = "ABCDE";
+
+    char[] myChar = myStr.toCharArray();  =>  {'A', 'B', 'C', 'D', 'E'}
+    byte[] myByte = myStr.getBytes();  =>  {65, 66, 67, 68, 69}
+
+    ================
+
+    Try with resources
+
+    說明:
+        1. Java7提出的新語法
+        2. 用途是整合檔案IO與try catch
+        3. 重新定義了所有的檔案IO類別
+            做法是, implements AutoClosable 介面, Override close()
+            因此IO結束時或是發生Exception, 系統都會自動關檔
+
+    原來的寫法:
+        try{
+            建立檔案IO物件
+            IO的處理
+        }
+        catch(IOException e){
+            例外處理/善後
+        }
+        finally{
+            關閉檔案
+        }
+
+    新寫法: 不須寫close()
+        try(建立檔案IO物件){
+            IO的處理
+        }
+        catch(IOException e){
+            例外處理/善後
+        }
+
+    ================
+
+    容器類別
+
+    套件路徑java.util
+    放入的元素必須是物件
+
+    List
+        1.元素放入後會產生順序
+        2.順序以值表示, 由0起算, 可視為索引
+        3.允許重複元素
+    
+    Set
+        1.元素放入後不產生順序
+        2.不允許重複的元素
+        3.當元素重複時, 採自動過濾
+            不太適合作為容器
+    
+    Map
+        1.放入的元素必須成雙
+        2.第一個元素當key, 第二個元素為value
+        3.key不能重複, value可以
+        4.當key重複, 新資料覆蓋舊資料
+    
+    Queue
+        1.元素放入後會產生順序
+        2.順序以值表示, 由0起算, 可視為索引
+        3.元素由尾端放入, 由前端取出
+            取出 <- 口口口 <- 放入
+            FIFO first in first out
+
+    ================
+
+    Generic (泛型)
+
+        早期的寫法:
+        ArrayList list = new ArrayList();
+        list.add("Lily");
+        list.add(new integer(123));
+            Java5-autoboxing
+                list.add(123);
+                list.add(1.234);
+                list.add(true);
+
+        Generic
+        ArrayList<Integer> list = new ArrayList<Integer>();
+            => 限制容器只能放Integer物件
+
+        ArrayList<Integer> list = new ArrayList<>();
+
+
+    ================
+
+    ArrayList, LinkedList, Vector 的比較
+
+    建立物件
+        List 物件 = new ArrayList(50);
+            => 建立容量為50的List, 超過時每次增加50
+        
+        List 物件 = new LinkedList();
+            => 建立時不能自訂容量
+
+        List 物件 = new Vector(50, 10);
+            => 建立容量為50的List, 超過時每次增加10
+
+    記憶體管理
+        Vector / ArrayList  ->  100, 150, 80, 75, ...
+                            插入92, 後面的值都要往後退一個
+
+        LinkedList  ->  100  ->  150  ->  80  ->  75  ->  ...
+                                   插入92
+                                 150 -> 92 -> 80
+        以節點的方式, 適合異動頻繁時使用
+
+    ================
+
+    HashSet, TreeSet
+
+    建立物件
+        Set 物件 = new HashSet(10, 5);
+            => 容量10, 超過時每次增加5
+        SortedSet 物件 = new TreeSet();
+
+    物件的管理
+        TreeSet 輸出時會由小而大排列
+
+
+        系統管理員權限執行cmd
+
+        啟動/停止 服務的方法
+        net stop mariadb
+        net start mariadb
+        
+        source E:\server\mariadb\Create_mariadb.sql
+        
+        use {database};
+        show databases;
+        show tables [from {database}];
+        select * from {table};
+        select {column(s)(,)} from ...;
+        show columns from {table};
+        describe {table};
+        delete from {table} where {condition};
+        drop table {table};
+        drop database {database};
+        
+        
+        
+        ================
+        
+        JDBC 簡介
+        
+            1. ODBC: Object/Open DataBase Connectivity
+                Microsoft 主導
+            2. JDBC: Java DataBase Connectivity 
+                Sunmicro System 主導
+                希望讓程式碼能統一, 在程式碼外處理不相同之處
+                Java / JSP / Servlet
+                    JDBC API
+                        JDBC Driver Manager
+                            Type 3, Type 4 提供Jar檔
+                            Type 1 --資料庫廠商不支援Java時, 由ODBC存取
+                                JDBC-ODBC Bridge
+                                    ODBC Driver
+                                        例:
+                                        Access (Office)
+                            Type 2 --
+                                JDBC-Native API Driver
+                                    專屬 Driver
+                            Type 3 --雖支援Java, 但有安全考量
+                                JDBC-Middle Ware
+                                    Middle ON Server
+                                        例:
+                                        Oracle
+                            Type 4
+                                pure JDBC Driver
+                                    例:
+                                    MySQL
+                                    MariaDB
+        
+            
+            註: 在Java中看到Native, 表示裡面提供的東西是由C/C++撰寫的
+        
+        ================
+        
+        Jar 檔
+        
+            1.是壓縮檔, 格式是 zip
+            2.副檔名建議使用 .jar
+            3.壓縮的檔案是 class檔與其package
+            4.建立Jar檔的工具
+                任何壓縮軟體皆可, 但壓縮格式請設定為.zip
+                jdk提供的工具, jar.exe
+        
+                .java 檔要先進行編譯, 將套件路徑建好, 裡面放.class
+                cmd 進到目錄 jar -cvf 456.jar com my
+        
+        ================
+        
+        以 eclipse 打開 .java 執行時編譯, 編譯後的 .class 放在專案下的 bin 
+        將 bin 中含套件路徑一起打包成 .zip 後, 更改副檔名成 .jar
+        
+        在 eclipse 中新增額外 jar 的方法:
+            於專案下的 JRE System Library 按下右鍵 / Build Path / Configure Build Path / Add External JARs
+        
+        
+        ================
+        
+        JarFile / Lab_UseJarFile
+            => Part 1
+            => Space.java , UseTarFile.java
+            => 改檔案名稱
+            => Space.java , UseJarFile.java
+            => 新增資料夾 com/ted 並將 Space.java 放入
+            => 選取 com, UseJarFile.java, 右鍵複製
+            => 於 Eclipse 建立新 Java 專案, 名稱比如 testrun
+            => 專案下 src 右鍵 / paste
+            => 左鍵雙擊 Space.java, UseJarFile.java
+            => 於 UseJarFile.java 新增程式碼, 叫用Space.spc()
+            => 執行 UseJarFile.java, 確認可以執行, 能印出有間隔的菱形*
+        
+            => Part2
+            => 開啟cmd, 進入 Eclipse 專案目錄 / bin
+            => dir 確認有com, UseJarFile.class
+            => jar -cvf test.jar com
+            => 於專案目錄下的 bin 將生成的 test.jar 放到自定目錄下, 比如 D:/jar
+        
+            => Part3
+            => 於 Eclipse 建立另一個新 Java 專案, 名稱比如 testjar
+            => 將 testrun 底下的 UseJarFile.java 複製, 於 testjar 底下src / paste
+            => 於專案名稱 testjar 按右鍵 / Properties / Java Build Path / Add External JARs / 選取自定目錄下的.jar
+            => Apply and Close
+            => 於專案名稱 testjar 按右鍵 / refresh
+            => 執行 testjar 底下的 UseJarFile.java 確認可以執行
+            
+            => 若無法執行出現 ClassNotFoundException, 請確認 Part1 是否正確實施

@@ -1,0 +1,206 @@
+unit12Lab
+
+chkid 以自訂字串排序檢查輸入字元, 檢查身分證字號
+String chkid = "0123456789ABCDEFGHJKLMNPQRSTUVXYWZIO"; 
+============
+
+String 類別的特性
+
+字串內容不能變更?
+str = "ABCabcdABC"
+str.replace('A','H')  => 參考舊的
+str = str.replace('A','H')  => 參考新的
+============
+
+String[] names = {"Lily", "Lulu", "Nana"};
+    => "Lily=Lulu=Nana"
+
+1. 
+    String str="";
+    for(int x=0;x<=2;x++){  // <names.length
+        if(x!=2){  // !=names.length-1
+            str += names[x] + "=";
+        }
+        else{
+            str += names[x];
+        }
+    }
+
+2.
+    str = String.join("=".names);  // names => 容器
+
+============
+
+字串的切割
+
+中文字串
+    toCharArray()   將字串切割成字元陣列
+    split("子字串")  切除子字串, 剩下的部分存成字串陣列
+
+    如
+        String str = "聯成電腦";
+        char[] result1 = str.toCharArray();
+            => ['聯','成','電','腦']  字元
+        String[] result2 = str.split("";)
+            => ["聯","成","電","腦"]  字串
+============
+
+Integer oo = null;  =>  好習慣, 未參考任何的實體
+oo = new Integer(123);
+
+EX07
+String str = null;  =>  可能發生問題
+String srt = "";
+str = "123";
+============
+
+字串的比較 EX08
+多提供一個忽略大小寫 equalsIgnoreCase()
+
+String str1 = "ABC";
+String str2 = "ABC";
+String str3 = "AFGH";
+String str4 = "AFAHJK";
+String str5 = "AFAH";
+
+System.out.println(str1.equals(str2));
+    => True
+
+System.out.println(str3.compareTo(str4));
+    => 71-65=6
+    => 回傳首位相異字元的Unicode差值
+    => 字串比較多提供 compareToIgnoreCase()
+
+System.out.println(str3.compareTo(str5));
+    => 6-4=2
+    => 無首位相異字元時, 比較長度
+
+物件必須是相同資料型態才可比較
+
+============
+
+StringBuffer / StringBuilder 類別
+
+說明: 可對實體內容進行編輯
+
+如
+    StringBuffer str = new StringBuffer("ABCD");
+ 
+============
+
+正則/正規表示式
+
+說明:
+    移植自UNIX
+    String 類別中有 3 個成員方法支援正則
+        1. split(正則表示式)
+        2. replaceAll(正則表示式)
+        3. match(正則表示式)
+
+============
+
+例外處理
+    早期:
+        程式執行時產生bug
+            OnError GOTO xxx
+                錯誤處理段
+    目前:
+        程式執行時產生bug
+            Error
+                不處理
+            Exception
+                處理, 若不處理, 結果跟Error一樣
+
+處理單一例外
+    try{
+        可能發生bug的敘述群
+    }
+    catch(例外類別 物件){
+        例外的善後
+    }
+    finally{
+        必須執行的敘述群
+    }
+
+    說明:
+        1.只處理首先發生的bug
+        2.發生的bug無法catch到時, 等同未處理
+        3.finally區塊式指定不論是否發生bug都要執行的敘述, 但亦可省略不寫
+
+處理多個例外
+    try{
+        ...
+    }
+    catch(例外類別1 物件1){
+        ...
+    }
+    catch(例外類別2 物件2){
+        ...
+    }
+    ...
+    catch(Exception 物件){} // 空白主體, 如果有什麼錯誤上面沒有抓到, 還是會被這一行抓到
+    finally{
+        ...
+    }
+
+    說明:
+        1.例外類別順序, 若有繼承關係, 子類別/延伸類別要寫在前面(要先catch到)
+        2.物件1, 物件2... 可以使用相同的名稱
+        3.Java7提出合併Catch的新語法
+            catch(例外類別1|例外類別2|...物件)
+
+以敘述拋出例外:
+    1.throw new 例外類別()
+    2.throw new 例外類別(原因字串)
+
+    說明:
+        throw敘述要寫在try之內
+
+    如:
+        try{
+            if(條件成功)
+                throw new ArithmeticException("除數為零");
+        }
+        catch(ArithmeticException e){...}
+
+在方法中宣告拋出的例外
+[access] 回傳值型態 方法名稱(參數群){
+    throws 例外類別1, 例外類別2....{
+        主體
+    }
+}
+
+說明:
+    1.通知叫用者, 在叫用時有可能發生的例外狀況, 但不一定會發生
+    2.例外發生時的處理者是叫用者
+
+    checkd
+    unchecked
+============
+
+檔案IO
+
+說明:
+    區分為兩大類
+
+    Character Stream
+        1.類別名稱:  ______Reader, _____Writer
+        2.IO的單位是16bit(2byte)
+        3.僅適用於文字, 每個字元2byte
+
+    Byte Stream
+        1.類別名稱: _____InputStream, ______OutputStream
+        2.IO單位 8byte(1byte)
+        3.適用任何型態的檔案
+============
+
+File類別
+
+說明:
+    1.用途是打包 路徑與檔名
+    2.套件路徑在java.io
+
+建立物件:
+    1. File 物件 = new File("路徑與檔名")
+    2. File 物件 = new File("路徑", "檔名")
+    3. File 物件 = new File("路徑")

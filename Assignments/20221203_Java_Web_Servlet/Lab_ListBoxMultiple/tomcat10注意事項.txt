@@ -1,0 +1,5 @@
+Tomcat 10.0 版本更改了servlet-api.jar的套件路徑
+從 javax 改成 jakarta
+
+Eclipse for JavaEE 也必須用更新的版本, 新建 Dynamic Web Project 時,
+Dynamic Web module version 須選 5.0
