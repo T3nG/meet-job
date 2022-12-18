@@ -43,27 +43,43 @@
             
             if(username.length == 0){
             	alert('請輸入姓名');
+                form.username.select();
             	return false;
             }
             if(gender == ''){
             	alert("請選擇性別");
+                form.gender.select();
             	return false;
             }
             if(address == ''){
     		    alert("請輸入地址");
+                form.address.select();
     		    return false;
     	    }
-            if(form.year.value == 0 || form.month.value == 0 || form.day.value == 0){
+            if(form.year.value == 0){
+            	alert("請選擇年份");
+                form.year.focus();
+            	return false;
+            }
+            if(form.month.value == 0){
+            	alert("請選擇月份");
+                form.month.focus();
+            	return false;
+            }
+            if(form.day.value == 0){
             	alert("請選擇日期");
+                form.day.focus();
             	return false;
             }
             if (idNumber == ''){
                 alert("請輸入身分證字號");
+                form.id_number.select();
             	return false;
             }
             // 檢查格式
     		if (!reg.test(idNumber)){
     			alert("身分證字號格式錯誤");
+                form.id_number.select();
     			return false;
     		}
     		// 計算權重
@@ -74,6 +90,7 @@
             
             if(total%10 != 0){
                 alert("所輸入的身分證字號不合理");
+                form.id_number.select();
             	return false;
            	}
            	document.inputForm.submit();

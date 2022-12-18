@@ -1,0 +1,95 @@
+JSP 全名是 Java Server Pages
+副檔名是 jsp
+是 Servlet 的另一種寫法
+首次執行時會被compile成class檔, 第二次之後就直接執行class檔
+
+安全考量: 用 Servlet
+JSP 可以從網址列看到檔案名稱
+
+撰寫時以 <%開始, %>結束
+    <%
+        for (int x=1;x<=6<x++)
+        ...
+    %>
+
+MHTL, CSS, Javascript, Java的混合體, 副檔名一定要用.jsp
+
+Directive Elements
+1. page
+    語法
+    <%@ page 屬性1="值1" 屬性2="值2" ...%>
+    
+    說明
+    <%@ 與 page 之間可以有空白
+        主要的屬性有
+            import 
+                引入套件, 可以多個import (重複使用)
+                <%@ page import="java.util.*" %>
+                <%@ page import="java.util, java.io.*" %>
+            extends
+                要編譯成Servlet時, 要繼承的類別
+            contentType
+                response時的資料編碼
+                <%@ page contentType("text/html;charset=utf-8") %
+            pageEncoding
+                設定目前網頁使用的字元集及頁編碼
+            isErrorPage
+                設定可否為其他網頁做例外處理(true/false)
+            errorPage
+                指定做例外處理的網頁
+2. include
+    語法
+    <%@ include file="路徑與檔名" %>
+    
+    說明
+        1.用途是將外部檔案匯入到網頁內
+        2.外部檔案可以是HTML, JSP
+        3.include可以寫在需要匯入的位置上, 不一定要在網頁的最上方
+
+Implicit Object part1
+1. out物件
+    將回應的結果寫入新網頁
+    常用的方法
+        print()/println()/write()
+            單列的輸出可以使用 =
+        getBufferSize()
+            取得緩衝區的大小
+        getRemaining()
+            取得緩衝區的剩餘大小
+        flush()
+            強制輸出緩衝區的內容
+        clear()/clearBuffer()
+            清除緩衝區的內容
+        cloes()
+2. response物件
+    寫入回應的標頭內容
+    常用的方法
+        addIntHeader(name, 秒數)
+            加入標頭內容
+                response.addIntHeader("refresh", 1)
+                每隔1秒鐘自動更新網頁一次
+        sendRedirect("目標網址或網頁")
+            轉址
+        getContentType()
+            取得回應的文字格式
+        getCharacterEncoding()
+            取得回應的字元編碼
+3. request物件
+    讀取client端的請求內容
+    常用的方法
+        getParameter("欄位名稱")
+            讀取指定欄位的內容
+        getParameterNames()
+            讀取所有欄的欄位名稱
+            欄位名稱全存入 Enumeratoin物件內
+                hasMoreElements() => true/false
+                nextElement()
+        setCharacterEncoding("編碼")
+        getParameterValues("欄位名稱")
+            讀取複選欄位的內容
+        getHeader("標頭名稱")
+        getHeaderNames()
+            查詢所有的標頭資訊
+        getRemoteAddr()
+            查詢client的IP
+
