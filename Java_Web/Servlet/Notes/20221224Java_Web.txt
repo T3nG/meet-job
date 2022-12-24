@@ -1,0 +1,181 @@
+內建物件
+    1.out
+        輸出資料到客戶端的網頁
+        類別是 PrintWriter
+    2.request
+        取得客戶端請求的資訊
+        HttpServletRequest
+    3.response
+        寫入回應物件的標頭區內容
+    4.session
+        代表一個交談, 即一次連線
+        HttpSessoin
+    5.application
+        代表伺服器的所有資料
+    6.page
+        代表目前的網頁
+    page < request < session < application
+
+session 物件
+    用途: 做網頁間的接續
+    方法:
+        getId()
+            取得session的識別碼
+        setAttribute('參數名稱', 值)
+            將值存入物件
+        setMaxInactiveInterval(秒數)
+            設定參數的有效時間
+        getAttribute('參數名稱')
+            取得參數所對應的值
+        removeAttribute('參數名稱')
+            移除參數
+    說明:
+        生命週期是整個交談
+        可以設定有效時間
+application 物件
+    用途: 建立網站的共用資料
+    方法:
+        setAttribute()
+        getAttribute()
+        removeAttribute()
+    說明: 
+        生命週期是整個網站
+
+
+Action Element
+    1.include
+        用途: 引入(匯入)外部檔案
+        語法:
+            要傳遞參數
+            <jsp:include page='目標網頁' flush='true'>
+                <jsp:param name='參數' value='值'/>  =>  無end tag
+                <jsp:param name=....
+            </jsp:include>
+
+            <jsp:include page='目標網頁' flush='true'/>
+
+        讀取參數
+        request.getParameter('參數')
+
+    2.forward
+        用途: 轉向另一張網頁
+        語法:
+            <jsp:forward page='目標網頁'>
+                <jsp:param name='參數' value='值'/>
+                ...
+            </jsp:forward>
+
+            <jsp:forward page='目標網頁'/>
+
+    3.useBean
+        何謂Bean:
+            Bean是 Java class檔
+            用途是開發可重複使用的元件
+            放置的位置在
+                WEB-INF
+                    classes
+                        xxx.class
+            不需要在web.xml部屬
+        撰寫的規範
+            必須要有套件路徑
+            有檔案IO時, 必須inplement java.io.Serializable
+            是 public class
+            屬性的存取權要設成 private
+            要提供get屬性/set屬性的存取權
+        語法:
+            1.建立 Bean物件
+            <jsp:useBean id='物件名稱' scope='作用範圍' class='套件路徑.類別名稱'/>
+
+            說明:
+                id 是自訂的物件名稱
+                scope 是物件的有效範圍(生命週期)
+                內容可以是page, request, session, application
+                    預設是page, 但通常會設定為request或以上, 最常設為application
+            
+            2.設定 Bean的屬性值
+                <jsp:setProperty name='物件名稱' proterty='屬性名稱' value = '值'/>
+            說明:
+                name的內容必須與建立Bean物件的id內容相同
+            
+            3.取得Bean的屬性值
+                <jsp:getProperty name='物件名稱' proterty='屬性名稱'/>
+
+                <jsp:getProperty name='物件名稱' proterty='*'/>
+
+JSP\7UseBeans\Case1
+javac -d . Calc.java
+於專案下的webapp新建classes資料夾, 將編譯好的com/ted/Calc.class放入其中
+
+開發Bean的時候, 最後在最後面加個Bean
+useBean scope="session" 若不確定範圍, 先設定session
+
+JSP call Servlet
+    方式1: include
+        <jsp:include page='/url-mapping' flush='true'/>
+        
+        <jsp:include page='url-mapping' flush='true'/>
+            <jsp:param name='參數' value='值'/>
+        </jsp:include>
+    方式2: forward
+        <jsp:forward page='/url-mapping'/>
+        
+        <jsp:forward page='url-mapping' flush='true'/>
+            <jsp:param name='參數' value='值'/>
+        </jsp:forward>
+
+Servlet call JSP
+    方式1: forward
+        RequestDispatcher 物件 = request.getRequestDispatcher('JSP路徑');
+        物件.forward(request, response)
+    方法2: redirect
+        response.sendRedirect('JSP路徑')
+
+EL(Expression Language)
+用途:
+    在JSP網頁中, 取代 scripting element 來做資料的存取
+說明:
+    包含了兩個基本要素, 變數, 運算符號
+    另外也提供 implicit物件
+語法:
+    ${EL運算}
+如:
+    application.setAttribute('name', 'Ted)
+    ...
+    姓名:${name}
+
+1.變數
+    說明:
+        與一般的程式語言使用上的意義相同
+2.運算符號
+    +, -, *, /或div, %或mod
+    ==或eq, !=或ne, <或lt, >或gt, <=或le, >=或ge
+    &&或and, ||或or, !或not
+    empty 檢查變數內容是否為empty
+    ${判斷式?結果1:結果2}
+3.內建物件
+    pageContext
+        取得網頁執行環境的相關資訊
+    pageScope
+        取得page物件內的屬性值
+    requestScope
+    sessionScope
+    applicationScope
+    param 
+        取得request物件指定的參數值
+    paramValues
+        所有的參數值
+    header
+        取得request物件指定的標頭內容
+    headerValues
+    initParam
+        取得網站執行環境的初始參數值
+
+ELD_InitParam.jsp 放到 tomcat/ROOT
+修改 tomcat/ROOT/web-inf/web.xml
+  <context-param>
+    <param-name>admin</param-name>
+    <param-value>kuomulin</param-value>
+  </context-param> 
+重啟 tomcat
+http://localhost:8080/ELD_InitParam.jsp
+即可看到結果
